@@ -1,0 +1,4 @@
+name: Capitalism
+version: '${project.version}'
+main: org.capitalism.Capitalism
+api-version: '1.20'
