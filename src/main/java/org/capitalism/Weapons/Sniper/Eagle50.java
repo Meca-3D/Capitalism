@@ -7,15 +7,16 @@ import org.capitalism.Weapons.WeaponInterface;
 public class Eagle50 extends Weapon implements WeaponInterface {
 
     public Eagle50(Player player) {
-        super(5, 20, 5000, 4, "Eagle .50", player);
+        super(5, 20, 3000, 4, "Eagle .50", player);
     }
 
     @Override
     public void shoot() {
         player.launchProjectile(Arrow.class, player.getLocation().getDirection().multiply(2));
-        if((System.currentTimeMillis() - lastShot > fireRate) && ammo > 0){
+        if(((System.currentTimeMillis() - lastShot) > fireRate) && ammo > 0){
             lastShot = System.currentTimeMillis();
             player.launchProjectile(Arrow.class, player.getLocation().getDirection().multiply(2));
+            ammo--;
             player.sendMessage(ammo + " / " + maxAmmo);
         }
         if(ammo == 0){
