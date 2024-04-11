@@ -7,7 +7,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -27,11 +26,12 @@ public class ListenerClass implements Listener {
         prospectors.add(new Prospector(event.getPlayer()));
         ItemStack J7 = new ItemStack(Material.WOODEN_HOE);
         ItemMeta meta = J7.getItemMeta();
-        meta.setDisplayName("J-7");
+        meta.setDisplayName("Eagle .50");
         J7.setItemMeta(meta);
         event.getPlayer().getInventory().addItem(J7);
     }
 
+    @EventHandler
     public void onPlayerQuit (PlayerQuitEvent event) {
         prospectors.remove(getProspector(event.getPlayer()));
     }
@@ -43,7 +43,7 @@ public class ListenerClass implements Listener {
             double x = location.getX();
             double y = location.getY();
             double z = location.getZ();
-            event.getEntity().getWorld().spawnParticle(Particle.CLOUD, x,y+0.1,z,10,0,0.1,0,0.1);
+            event.getEntity().getWorld().spawnParticle(Particle.SONIC_BOOM, x,y+0.1,z,1,0,0.1,0,0.1);
             event.getEntity().remove();
         }
     }
@@ -52,8 +52,7 @@ public class ListenerClass implements Listener {
     public void onInteractItem(PlayerInteractEvent event){
         Prospector prospector = getProspector(event.getPlayer());
         if (event.getItem() != null) {
-            if (event.getItem().getType() == Material.WOODEN_HOE && event.getItem().getItemMeta().getDisplayName().equals("J-7")) {
-                event.getPlayer().sendMessage("Interacted with J-7");
+            if (event.getItem().getType() == Material.WOODEN_HOE && event.getItem().getItemMeta().getDisplayName().equals("J-7") || event.getItem().getItemMeta().getDisplayName().equals("Eagle .50")) {
                 if (prospector != null) {
                     prospector.getSlot1().shoot();
                 } else {
@@ -62,6 +61,16 @@ public class ListenerClass implements Listener {
             }
         }
     }
+
+    /*@EventHandler
+        public void onRightClick(PlayerInteractEvent event) {
+            Prospector prospector = getProspector(event.getPlayer());
+            Action action = event.getAction();
+
+            if (action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK)) {
+
+            }
+        }*/
 
     public Prospector getProspector(Player player) {
         for(Prospector prospector : prospectors){
@@ -72,14 +81,6 @@ public class ListenerClass implements Listener {
         return null;
     }
 
-    /*@EventHandler
-    public void onRightClick(PlayerInteractEvent event) {
-        Prospector prospector = getProspector(event.getPlayer());
-        Action action = event.getAction();
 
-        if (action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK)) {
-
-        }
-    }*/
 
 }

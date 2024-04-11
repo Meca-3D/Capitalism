@@ -1,23 +1,21 @@
-package org.capitalism.Weapons.Pistol;
+package org.capitalism.Weapons.Sniper;
 
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.capitalism.Weapons.Weapon;
 import org.capitalism.Weapons.WeaponInterface;
+public class Eagle50 extends Weapon implements WeaponInterface {
 
-public class J7 extends Weapon implements WeaponInterface {
-
-    public J7(Player player) {
-        super(7, 10, 600, 1, "J-7", player);
+    public Eagle50(Player player) {
+        super(5, 20, 5000, 4, "Eagle .50", player);
     }
 
     @Override
     public void shoot() {
-        //player.launchProjectile(Arrow.class, player.getLocation().getDirection().multiply(2));
-        if(((System.currentTimeMillis() - lastShot) > fireRate) && ammo > 0){
+        player.launchProjectile(Arrow.class, player.getLocation().getDirection().multiply(2));
+        if((System.currentTimeMillis() - lastShot > fireRate) && ammo > 0){
             lastShot = System.currentTimeMillis();
             player.launchProjectile(Arrow.class, player.getLocation().getDirection().multiply(2));
-            ammo--;
             player.sendMessage(ammo + " / " + maxAmmo);
         }
         if(ammo == 0){
@@ -34,4 +32,4 @@ public class J7 extends Weapon implements WeaponInterface {
     public void aim() {
 
     }
-}
+    }

@@ -1,7 +1,7 @@
 package org.capitalism.Prospectors;
 
 import org.bukkit.entity.Player;
-import org.capitalism.Weapons.Pistol.J7;
+import org.capitalism.Weapons.Sniper.Eagle50;
 import org.capitalism.Weapons.WeaponInterface;
 
 import java.util.UUID;
@@ -14,7 +14,7 @@ public class Prospector {
     public Prospector(Player player){
         this.name = player.getName();
         this.uuid = player.getUniqueId();
-        this.slot1 = new J7(player);
+        this.slot1 = new Eagle50(player);
     }
 
     public String getName() {
