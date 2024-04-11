@@ -22,6 +22,7 @@ public class ListenerClass implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event){
+        event.getPlayer().getInventory().clear();
         prospectors.add(new Prospector(event.getPlayer()));
         ItemStack J7 = new ItemStack(Material.WOODEN_HOE);
         ItemMeta meta = J7.getItemMeta();
