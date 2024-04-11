@@ -21,5 +21,6 @@ public class Weapon {
         this.fireRate = fireRate;
         this.reloadTime = reloadTime;
         this.player = player;
+        this.lastShot = System.currentTimeMillis();
     }
 }

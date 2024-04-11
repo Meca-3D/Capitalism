@@ -21,7 +21,7 @@ public class ListenerClass implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event){
-        prospectors.add(new Prospector(event.getPlayer().getName(),event.getPlayer().getUniqueId()));
+        prospectors.add(new Prospector(event.getPlayer()));
         ItemStack J7 = new ItemStack(Material.WOODEN_HOE);
         ItemMeta meta = J7.getItemMeta();
         meta.setDisplayName("J-7");
@@ -44,10 +44,14 @@ public class ListenerClass implements Listener {
     @EventHandler
     public void onInteractItem(PlayerInteractEvent event){
         Prospector prospector = getProspector(event.getPlayer());
-        if(event.getItem() != null){
-            if(event.getItem().getItemMeta().getDisplayName().equals("J-7")){
-                event.getPlayer().sendMessage(String.valueOf(prospector.getSlot1()));
-                prospector.getSlot1().shoot(event.getPlayer());
+        if (event.getItem() != null) {
+            if (event.getItem().getType() == Material.WOODEN_HOE && event.getItem().getItemMeta().getDisplayName().equals("J-7")) {
+                event.getPlayer().sendMessage("Interacted with J-7");
+                if (prospector != null) {
+                    prospector.getSlot1().shoot();
+                } else {
+                    event.getPlayer().sendMessage("Prospector not found");
+                }
             }
         }
     }
