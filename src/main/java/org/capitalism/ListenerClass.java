@@ -11,6 +11,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.capitalism.Prospectors.Prospector;
@@ -22,12 +23,17 @@ public class ListenerClass implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event){
+        event.getPlayer().getInventory().clear();
         prospectors.add(new Prospector(event.getPlayer()));
         ItemStack J7 = new ItemStack(Material.WOODEN_HOE);
         ItemMeta meta = J7.getItemMeta();
         meta.setDisplayName("J-7");
         J7.setItemMeta(meta);
         event.getPlayer().getInventory().addItem(J7);
+    }
+
+    public void onPlayerQuit (PlayerQuitEvent event) {
+        prospectors.remove(getProspector(event.getPlayer()));
     }
 
     @EventHandler
