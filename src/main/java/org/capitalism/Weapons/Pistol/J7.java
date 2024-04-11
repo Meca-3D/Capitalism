@@ -17,7 +17,7 @@ public class J7 extends Weapon implements WeaponInterface {
         if((System.currentTimeMillis() - lastShot > (double) 1000 / fireRate) && ammo > 0){
             lastShot = System.currentTimeMillis();
             player.launchProjectile(Arrow.class, player.getLocation().getDirection().multiply(2));
-            player.sendMessage(ammo + " / " + maxAmmo);
+            player.sendMessage(ammo + " / c " + maxAmmo);
         }
         if(ammo == 0){
             reload();
