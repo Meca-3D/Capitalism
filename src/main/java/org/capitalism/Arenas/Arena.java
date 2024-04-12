@@ -17,6 +17,7 @@ public class Arena {
     public Arena(int time, int id) {
        this.gameDuration = time;
        this.id = id;
+       this.prospectorsList = new ArrayList<>();
     }
 
     public void join(Prospector prospector) {

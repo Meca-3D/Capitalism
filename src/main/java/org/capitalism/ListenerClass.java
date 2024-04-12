@@ -1,5 +1,6 @@
 package org.capitalism;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -14,6 +15,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.capitalism.Prospectors.Prospector;
+import sun.security.util.Debug;
 
 import java.util.ArrayList;
 
@@ -22,6 +24,7 @@ public class ListenerClass implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event){
+        Bukkit.broadcastMessage("fzeg");
         event.getPlayer().getInventory().clear();
         prospectors.add(new Prospector(event.getPlayer()));
         ItemStack J7 = new ItemStack(Material.WOODEN_HOE);

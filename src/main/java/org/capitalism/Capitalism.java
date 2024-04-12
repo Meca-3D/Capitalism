@@ -8,23 +8,23 @@ import org.capitalism.Arenas.AreneManager;
 import org.capitalism.Command.CommandClass;
 
 public final class Capitalism extends JavaPlugin {
-
-    private Arena arena;
     private AreneManager areneManager;
+    private ListenerClass listenerClass;
 
     @Override
     public void onEnable() {
-        CommandClass commands = new CommandClass();
+        listenerClass = new ListenerClass();
+        areneManager = new AreneManager(this);
+        areneManager.addArena(new Arena(1200, 0));
+        CommandClass commands = new CommandClass(areneManager, listenerClass);
 
         getCommand("join").setExecutor(commands);
         getCommand("start").setExecutor(commands);
         getCommand("tir").setExecutor(new TirCommand());
 
-        areneManager.addArena(new Arena(1200, 0));
+
         for(Player p : Bukkit.getOnlinePlayers()) {
-
-
-            getServer().getPluginManager().registerEvents(new ListenerClass(),this);
+            getServer().getPluginManager().registerEvents(listenerClass, this);
         }
     }
 

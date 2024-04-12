@@ -14,6 +14,11 @@ public class CommandClass implements CommandExecutor {
     private AreneManager areneManager;
     private ListenerClass listenerClass;
 
+    public CommandClass(AreneManager areneManager, ListenerClass listenerClass) {
+        this.areneManager = areneManager;
+        this.listenerClass = listenerClass;
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (!(sender instanceof Player)) {
