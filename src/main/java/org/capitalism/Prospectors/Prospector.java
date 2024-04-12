@@ -8,12 +8,12 @@ import java.util.UUID;
 
 public class Prospector {
     private String name;
-    private UUID uuid;
+    private Player player;
     private WeaponInterface slot1;
 
     public Prospector(Player player){
         this.name = player.getName();
-        this.uuid = player.getUniqueId();
+        this.player = player.getPlayer();
         this.slot1 = new Eagle50(player);
     }
 
@@ -25,12 +25,12 @@ public class Prospector {
         this.name = name;
     }
 
-    public UUID getUuid() {
-        return uuid;
+    public Player getPlayer() {
+        return player;
     }
 
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
+    public void setUuid(Player player) {
+        this.player = player;
     }
 
     public WeaponInterface getSlot1() {
