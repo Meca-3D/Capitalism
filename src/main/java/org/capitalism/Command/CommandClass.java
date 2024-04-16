@@ -4,19 +4,16 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.capitalism.Arenas.Arena;
 import org.capitalism.Arenas.AreneManager;
 import org.capitalism.ListenerClass;
 
 public class CommandClass implements CommandExecutor {
 
-    private Arena arena;
-    private AreneManager areneManager;
-    private ListenerClass listenerClass;
-
-    public CommandClass(AreneManager areneManager, ListenerClass listenerClass) {
-        this.areneManager = areneManager;
+    private final AreneManager areneManager;
+    private final ListenerClass listenerClass;
+    public CommandClass(AreneManager areneManager, ListenerClass listenerClass){
         this.listenerClass = listenerClass;
+        this.areneManager = areneManager;
     }
 
     @Override

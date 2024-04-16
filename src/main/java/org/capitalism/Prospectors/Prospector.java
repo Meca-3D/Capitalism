@@ -4,7 +4,6 @@ import org.bukkit.entity.Player;
 import org.capitalism.Weapons.Sniper.Eagle50;
 import org.capitalism.Weapons.WeaponInterface;
 
-import java.util.UUID;
 
 public class Prospector {
     private String name;

@@ -2,8 +2,6 @@ package org.capitalism.Arenas;
 
 import org.capitalism.Capitalism;
 
-import java.util.ArrayList;
-
 public class AreneManager {
 
     private Capitalism capitalism;
@@ -20,10 +18,6 @@ public class AreneManager {
 
     public void addArena(Arena arena) {
         this.actualGame = arena;
-    }
-
-    public void join() {
-
     }
 
 }
