@@ -13,7 +13,7 @@ public final class Capitalism extends JavaPlugin {
     public void onEnable() {
         listenerClass = new ListenerClass();
         areneManager = new AreneManager(this);
-        areneManager.addArena(new Arena(1200, 0));
+        areneManager.addArena(new Arena(1200, 0,this));
         CommandClass commands = new CommandClass(areneManager, listenerClass);
 
         getCommand("join").setExecutor(commands);

@@ -3,6 +3,7 @@ package org.capitalism.Arenas;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.capitalism.Capitalism;
 import org.capitalism.Prospectors.Prospector;
 
 import java.util.ArrayList;
@@ -13,11 +14,13 @@ public class Arena {
     private int id;
     private int gameDuration;
     private boolean isRunning = false;
+    private Capitalism capitalism;
 
-    public Arena(int time, int id) {
+    public Arena(int time, int id,Capitalism capitalism) {
        this.gameDuration = time;
        this.id = id;
        this.prospectorsList = new ArrayList<>();
+       this.capitalism = capitalism;
     }
 
     public void join(Prospector prospector) {
@@ -57,7 +60,7 @@ public class Arena {
                     cancel();
                 }
             }
-        };
+        }.runTaskTimer(capitalism, 0, 20);
     }
 
     public int getId() {
