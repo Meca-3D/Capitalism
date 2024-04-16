@@ -8,12 +8,12 @@ public class Weapon {
     protected int ammo;
     protected int maxAmmo;
     protected int damage;
-    protected int fireRate;
+    protected double fireRate;
     protected int reloadTime;
     protected double lastShot;
     protected Player player;
 
-    public Weapon(int maxAmmo, int damage, int fireRate, int reloadTime, String name, Player player) {
+    public Weapon(int maxAmmo, int damage, double fireRate, int reloadTime, String name, Player player) {
         this.name = name;
         this.maxAmmo = maxAmmo;
         this.ammo = maxAmmo;
