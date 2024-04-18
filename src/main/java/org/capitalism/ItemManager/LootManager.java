@@ -1,4 +1,4 @@
-package org.capitalism.Chest;
+package org.capitalism.ItemManager;
 
 import java.util.ArrayList;
 

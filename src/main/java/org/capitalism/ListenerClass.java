@@ -15,10 +15,9 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
-import org.capitalism.Chest.LootChest;
-import org.capitalism.Chest.LootManager;
+import org.capitalism.ItemManager.LootChest;
+import org.capitalism.ItemManager.LootManager;
 import org.capitalism.Prospectors.Prospector;
-import sun.security.util.Debug;
 
 import java.util.ArrayList;
 
@@ -53,11 +52,13 @@ public class ListenerClass implements Listener {
         if(event.getRightClicked().getType() == EntityType.INTERACTION || event.getRightClicked().getType() == EntityType.ITEM_DISPLAY ){
             event.getPlayer().sendMessage("You just right clicked on a interaction entity");
             for (LootChest chest :lootManager.getLootChests()) {
-                if (chest.getInteraction() == event.getRightClicked()) {
-                    chest.remove();
+                for (Interaction interaction :chest.getInteraction()) {
+                    if (interaction == event.getRightClicked()) {
+                        chest.remove();
+                    }
                 }
-            }
 
+            }
         }
     }
     @EventHandler
@@ -81,14 +82,20 @@ public class ListenerClass implements Listener {
                     prospector.getSlot1().shoot();
 
                     Location location = event.getPlayer().getLocation();
-                    Interaction interaction = (Interaction) event.getPlayer().getWorld().spawnEntity(location, EntityType.INTERACTION);
-                    interaction.setInteractionHeight(1);
-                    interaction.setInteractionWidth(2);
+
+                    Interaction interaction1 = (Interaction) event.getPlayer().getWorld().spawnEntity(location.add(new Vector(-1.5, 0, 0)), EntityType.INTERACTION);
+                    interaction1.setInteractionHeight(1);
+                    interaction1.setInteractionWidth(1.5f);
+
+                    Interaction interaction2 = (Interaction) event.getPlayer().getWorld().spawnEntity(location.add(new Vector(1.5, 0, 0)), EntityType.INTERACTION);
+                    interaction2.setInteractionHeight(1);
+                    interaction2.setInteractionWidth(1.5f);
+
                     ItemDisplay model = (ItemDisplay) event.getPlayer().getWorld().spawnEntity(location.add(new Vector(0,0.5,0)), EntityType.ITEM_DISPLAY);
                     ItemStack chest = new ItemStack(Material.CHEST);
                     model.setItemStack(chest);
                     model.setDisplayWidth(2);
-                    lootManager.addChest(new LootChest(interaction, model));
+                    lootManager.addChest(new LootChest(interaction1, interaction2, model));
 
                 } else {
                     event.getPlayer().sendMessage("Prospector not found");

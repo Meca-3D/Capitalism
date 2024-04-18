@@ -3,7 +3,7 @@ package org.capitalism;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.capitalism.Arenas.Arena;
 import org.capitalism.Arenas.AreneManager;
-import org.capitalism.Chest.LootManager;
+import org.capitalism.ItemManager.LootManager;
 import org.capitalism.Command.CommandClass;
 
 public final class Capitalism extends JavaPlugin {
