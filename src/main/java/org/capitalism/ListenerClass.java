@@ -14,6 +14,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.capitalism.ItemManager.LootChest;
 import org.capitalism.ItemManager.LootManager;
@@ -21,12 +22,16 @@ import org.capitalism.Prospectors.Prospector;
 
 import java.util.ArrayList;
 
+
+
 public class ListenerClass implements Listener {
     private ArrayList<Prospector> prospectors;
     private LootManager lootManager;
-    public ListenerClass(LootManager lootManager) {
+    private Capitalism plugin;
+    public ListenerClass(LootManager lootManager, Capitalism plugin) {
         this.prospectors = new ArrayList<>();
         this.lootManager = lootManager;
+        this.plugin = plugin;
     }
 
     @EventHandler
@@ -49,17 +54,24 @@ public class ListenerClass implements Listener {
 
     @EventHandler
     public void onEntityInteraction(PlayerInteractAtEntityEvent event){
-        if(event.getRightClicked().getType() == EntityType.INTERACTION || event.getRightClicked().getType() == EntityType.ITEM_DISPLAY ){
+        if(event.getRightClicked().getType() == EntityType.INTERACTION){
             event.getPlayer().sendMessage("You just right clicked on a interaction entity");
             for (LootChest chest :lootManager.getLootChests()) {
-                for (Interaction interaction :chest.getInteraction()) {
-                    if (interaction == event.getRightClicked()) {
-                        chest.remove();
-                    }
+                if (chest.getInteraction() == event.getRightClicked()) {
+                    chest.openChest();
+                    chest.removeInteractions();
+                    lootManager.removeChest(chest);
                 }
-
             }
         }
+    }
+
+    public void itemAnimation() {
+        new BukkitRunnable() {
+            public void run() {
+
+            }
+        }.runTaskTimer(plugin, 0, 1);
     }
     @EventHandler
     public void onArrowHit(ProjectileHitEvent event){
@@ -83,19 +95,18 @@ public class ListenerClass implements Listener {
 
                     Location location = event.getPlayer().getLocation();
 
+                    // Chest
+
                     Interaction interaction1 = (Interaction) event.getPlayer().getWorld().spawnEntity(location.add(new Vector(-1.5, 0, 0)), EntityType.INTERACTION);
                     interaction1.setInteractionHeight(1);
-                    interaction1.setInteractionWidth(1.5f);
-
-                    Interaction interaction2 = (Interaction) event.getPlayer().getWorld().spawnEntity(location.add(new Vector(1.5, 0, 0)), EntityType.INTERACTION);
-                    interaction2.setInteractionHeight(1);
-                    interaction2.setInteractionWidth(1.5f);
+                    interaction1.setInteractionWidth(3);
 
                     ItemDisplay model = (ItemDisplay) event.getPlayer().getWorld().spawnEntity(location.add(new Vector(0,0.5,0)), EntityType.ITEM_DISPLAY);
                     ItemStack chest = new ItemStack(Material.CHEST);
                     model.setItemStack(chest);
                     model.setDisplayWidth(2);
-                    lootManager.addChest(new LootChest(interaction1, interaction2, model));
+                    lootManager.addChest(new LootChest(interaction1, model, location));
+
 
                 } else {
                     event.getPlayer().sendMessage("Prospector not found");

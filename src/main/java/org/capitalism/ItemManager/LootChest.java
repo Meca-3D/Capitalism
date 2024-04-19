@@ -1,39 +1,51 @@
 package org.capitalism.ItemManager;
 
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Interaction;
 import org.bukkit.entity.ItemDisplay;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class LootChest {
 
-    private Interaction interaction1;
-    private Interaction interaction2;
+    private Interaction interaction;
     private ItemDisplay itemDisplay;
+    private Location position;
 
-   public LootChest(Interaction interaction1, Interaction interaction2, ItemDisplay itemDisplay) {
-       this.interaction1 = interaction1;
-       this.interaction2 = interaction2;
+   public LootChest(Interaction interaction, ItemDisplay itemDisplay, Location position) {
+       this.interaction = interaction;
        this.itemDisplay = itemDisplay;
+       this.position = position;
 
    }
 
    public void remove() {
-       interaction1.remove();
-       interaction2.remove();
+       interaction.remove();
        itemDisplay.remove();
    }
 
-    public ArrayList<Interaction> getInteraction() {
-        ArrayList<Interaction> arr = new ArrayList<Interaction>();
-        arr.add(interaction1);
-        arr.add(interaction2);
-        return arr;
+   public void removeInteractions() {
+       interaction.remove();
+   }
+
+    public void openChest() {
+        Random random = new Random();
+
+        UsableItem item = new UsableItem(position);
+        item.itemCreation();
     }
 
-    public void setInteraction(Interaction interaction1, Interaction interaction2) {
-        this.interaction1 = interaction1;
-        this.interaction2 = interaction2;
+    public Interaction getInteraction() {
+       return this.interaction;
+    }
+
+    public void setInteraction(Interaction interaction) {
+        this.interaction = interaction;
     }
 
     public ItemDisplay getItemDisplay() {

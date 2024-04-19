@@ -14,7 +14,7 @@ public final class Capitalism extends JavaPlugin {
     @Override
     public void onEnable() {
         lootManager = new LootManager();
-        listenerClass = new ListenerClass(lootManager);
+        listenerClass = new ListenerClass(lootManager, this);
         areneManager = new AreneManager(this);
 
         areneManager.addArena(new Arena(1200, 0,this));
