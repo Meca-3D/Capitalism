@@ -53,7 +53,7 @@ public class Arena {
                 if(gameDuration > 0){
                     gameDuration--;
                     for(Prospector prospector : prospectorsList){
-                        prospector.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("Time left: " + gameDuration));
+                        prospector.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("Time left " + (gameDuration/60) + " " + (gameDuration%60)));
                     }
                 } else {
                     isRunning = false;
