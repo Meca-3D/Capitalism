@@ -8,6 +8,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.capitalism.Prospectors.Prospector;
 
+import java.lang.classfile.Attribute;
 import java.util.Objects;
 
 public class AreaMission extends Mission {
@@ -44,6 +45,10 @@ public class AreaMission extends Mission {
                         c.getTarget();
                         Entity a = w.spawnEntity(new Location(w, 0, 72, 0), EntityType.ARMOR_STAND);
                         c.setTarget((LivingEntity) a);
+
+                        c.setCustomName(ChatColor.RED + "VICTOR");
+                        c.setCustomNameVisible(true);
+                        c.setHealth(4);
                     }
                 }
             }
