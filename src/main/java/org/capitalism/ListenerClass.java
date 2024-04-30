@@ -101,11 +101,31 @@ public class ListenerClass implements Listener {
                     interaction1.setInteractionHeight(1);
                     interaction1.setInteractionWidth(3);
 
-                    ItemDisplay model = (ItemDisplay) event.getPlayer().getWorld().spawnEntity(location.add(new Vector(0,0.5,0)), EntityType.ITEM_DISPLAY);
-                    ItemStack chest = new ItemStack(Material.CHEST);
-                    model.setItemStack(chest);
-                    model.setDisplayWidth(2);
-                    lootManager.addChest(new LootChest(interaction1, model, location));
+                    ItemDisplay chestModel = (ItemDisplay) event.getPlayer().getWorld().spawnEntity(location.add(new Vector(0,0.5,0)), EntityType.ITEM_DISPLAY);
+                    ItemStack chest = new ItemStack(Material.PAPER);
+                    ItemMeta chestMeta = chest.getItemMeta();
+                    chestMeta.setCustomModelData(1);
+                    chest.setItemMeta(chestMeta);
+                    chestModel.setItemStack(chest);
+                    chestModel.setDisplayWidth(2);
+
+                    ItemDisplay rightChestDoorModel = (ItemDisplay) event.getPlayer().getWorld().spawnEntity(chestModel.getLocation().add(new Vector(-0.62, 0.812, 0)), EntityType.ITEM_DISPLAY);
+                    ItemStack rightChestDoor = new ItemStack(Material.PAPER);
+                    ItemMeta rightDoorMeta = rightChestDoor.getItemMeta();
+                    rightDoorMeta.setCustomModelData(3);
+                    rightChestDoor.setItemMeta(rightDoorMeta);
+                    rightChestDoorModel.setItemStack(rightChestDoor);
+                    rightChestDoorModel.setDisplayWidth(2);
+
+                    ItemDisplay leftChestDoorModel = (ItemDisplay) event.getPlayer().getWorld().spawnEntity(chestModel.getLocation().add(new Vector(0.62, 0.812, 0)), EntityType.ITEM_DISPLAY);
+                    ItemStack leftChestDoor = new ItemStack(Material.PAPER);
+                    ItemMeta leftDoorMeta = leftChestDoor.getItemMeta();
+                    leftDoorMeta.setCustomModelData(2);
+                    leftChestDoor.setItemMeta(leftDoorMeta);
+                    leftChestDoorModel.setItemStack(leftChestDoor);
+                    leftChestDoorModel.setDisplayWidth(2);
+
+                    lootManager.addChest(new LootChest(interaction1, chestModel, leftChestDoorModel, rightChestDoorModel, location, plugin));
 
 
                 } else {
