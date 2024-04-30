@@ -6,6 +6,8 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Interaction;
+import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -26,6 +28,8 @@ import org.capitalism.mission.AreaMission;
 import org.capitalism.mission.Mission;
 
 import java.util.ArrayList;
+
+
 
 public class ListenerClass implements Listener {
     private ArrayList<Prospector> prospectors;
