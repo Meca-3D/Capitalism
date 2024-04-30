@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,12 +20,12 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.capitalism.ItemManager.LootChest;
 import org.capitalism.ItemManager.LootManager;
+import org.bukkit.util.Vector;
 import org.capitalism.Prospectors.Prospector;
-import sun.security.util.Debug;
+import org.capitalism.mission.AreaMission;
+import org.capitalism.mission.Mission;
 
 import java.util.ArrayList;
-
-
 
 public class ListenerClass implements Listener {
     private ArrayList<Prospector> prospectors;
@@ -52,6 +53,11 @@ public class ListenerClass implements Listener {
         meta.setDisplayName("Eagle .50");
         J7.setItemMeta(meta);
         event.getPlayer().getInventory().addItem(J7);
+
+        //prospectors.get(prospectors.size()-1).addMission(new AreaMission("Gold Farmer", 30, 30, new Location(event.getPlayer().getWorld(), 0, 0, 0), 35, 1, "avaliable", prospectors.get(prospectors.size()-1), new Location(event.getPlayer().getWorld(), 50, 150, 50), new Location(event.getPlayer().getWorld(), -50, -150, -50)));
+        //prospectors.get(prospectors.size()-1).addMission(new Mission("Gold Farmer", 30, 30, new Location(event.getPlayer().getWorld(), 0, 0, 0), 35, 1, "avaliable", prospectors.get(prospectors.size()-1)));
+        getProspector(event.getPlayer()).addMission(new AreaMission("Gold Farmer", 30, new Location(event.getPlayer().getWorld(), 0, 0, 0), 35, 1, "avaliable", getProspector(event.getPlayer()), new Location(event.getPlayer().getWorld(), 50, 150, 50), new Location(event.getPlayer().getWorld(), -50, -150, -50)));
+
     }
 
     @EventHandler
@@ -88,7 +94,7 @@ public class ListenerClass implements Listener {
             double x = location.getX();
             double y = location.getY();
             double z = location.getZ();
-            event.getEntity().getWorld().spawnParticle(Particle.BLOCK_CRACK, x,y+0.1,z,1,0,0.1,0,0.1, Material.REDSTONE_BLOCK.createBlockData());
+            event.getEntity().getWorld().spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, x,y+0.1,z,1,0,0.1,0,0.1, Material.REDSTONE_BLOCK.createBlockData());
             event.getEntity().remove();
         }
     }
@@ -144,14 +150,6 @@ public class ListenerClass implements Listener {
 
     }
 
-    @EventHandler
-    public void onEntityInteraction(PlayerInteractAtEntityEvent event){
-        if(event.getRightClicked().getType() == EntityType.INTERACTION && event.getRightClicked().getCustomName().equals("chest")){
-            event.getPlayer().sendMessage("You just right clicked on a interaction entity");
-            event.getRightClicked().remove();
-        }
-    }
-
     /*@EventHandler
         public void onRightClick(PlayerInteractEvent event) {
             Prospector prospector = getProspector(event.getPlayer());
@@ -171,6 +169,7 @@ public class ListenerClass implements Listener {
         return null;
     }
 
-
-
+    public ArrayList<Prospector> getProspectors() {
+        return prospectors;
+    }
 }
