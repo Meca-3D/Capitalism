@@ -4,7 +4,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
-import org.bukkit.entity.*;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileHitEvent;
@@ -19,6 +20,7 @@ import org.bukkit.util.Vector;
 import org.capitalism.ItemManager.LootChest;
 import org.capitalism.ItemManager.LootManager;
 import org.capitalism.Prospectors.Prospector;
+import sun.security.util.Debug;
 
 import java.util.ArrayList;
 
@@ -34,11 +36,17 @@ public class ListenerClass implements Listener {
         this.plugin = plugin;
     }
 
+    public ListenerClass(Capitalism plugin){
+        this.plugin = plugin;
+    }
+
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event){
         Bukkit.broadcastMessage("fzeg");
         event.getPlayer().getInventory().clear();
-        prospectors.add(new Prospector(event.getPlayer()));
+        Location location = event.getPlayer().getLocation();
+        Interaction interaction = (Interaction) event.getPlayer().getWorld().spawnEntity(location, EntityType.INTERACTION);
+        prospectors.add(new Prospector(event.getPlayer(), plugin));
         ItemStack J7 = new ItemStack(Material.WOODEN_HOE);
         ItemMeta meta = J7.getItemMeta();
         meta.setDisplayName("Eagle .50");
@@ -80,7 +88,7 @@ public class ListenerClass implements Listener {
             double x = location.getX();
             double y = location.getY();
             double z = location.getZ();
-            event.getEntity().getWorld().spawnParticle(Particle.SONIC_BOOM, x,y+0.1,z,1,0,0.1,0,0.1);
+            event.getEntity().getWorld().spawnParticle(Particle.BLOCK_CRACK, x,y+0.1,z,1,0,0.1,0,0.1, Material.REDSTONE_BLOCK.createBlockData());
             event.getEntity().remove();
         }
     }
@@ -134,6 +142,14 @@ public class ListenerClass implements Listener {
             }
         }
 
+    }
+
+    @EventHandler
+    public void onEntityInteraction(PlayerInteractAtEntityEvent event){
+        if(event.getRightClicked().getType() == EntityType.INTERACTION && event.getRightClicked().getCustomName().equals("chest")){
+            event.getPlayer().sendMessage("You just right clicked on a interaction entity");
+            event.getRightClicked().remove();
+        }
     }
 
     /*@EventHandler

@@ -15,6 +15,7 @@ public final class Capitalism extends JavaPlugin {
     public void onEnable() {
         lootManager = new LootManager();
         listenerClass = new ListenerClass(lootManager, this);
+        listenerClass = new ListenerClass(this);
         areneManager = new AreneManager(this);
 
         areneManager.addArena(new Arena(1200, 0,this));
@@ -28,5 +29,9 @@ public final class Capitalism extends JavaPlugin {
     @Override
     public void onDisable() {
         System.out.println("Capitalism plugin disabled");
+    }
+
+    public ListenerClass getListenerClass() {
+        return listenerClass;
     }
 }
