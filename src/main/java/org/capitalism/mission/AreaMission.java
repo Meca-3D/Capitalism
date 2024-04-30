@@ -1,11 +1,14 @@
 package org.capitalism.mission;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.capitalism.Prospectors.Prospector;
 
 import java.lang.classfile.Attribute;
@@ -42,13 +45,19 @@ public class AreaMission extends Mission {
                         Location loc = new Location(w, x, w.getHighestBlockYAt((int) x, (int) z), z);
                         //w.spawnEntity(loc, EntityType.ZOMBIE);
                         Creature c = (Creature) w.spawnEntity(loc, EntityType.ZOMBIE);
+                        GRABDOUL abdel = new GRABDOUL("abdel",20,0, 0, true, c);
+                        GRABDOULFOU abdel2 = new GRABDOULFOU("TaLiBaN",20,0, 0, true, c);
+
+
+                        abdel.update();
+                        abdel2.update();
+
+                        Creature d = (Creature) w.spawnEntity(loc, EntityType.ZOMBIE);
+
                         c.getTarget();
                         Entity a = w.spawnEntity(new Location(w, 0, 72, 0), EntityType.ARMOR_STAND);
                         c.setTarget((LivingEntity) a);
 
-                        c.setCustomName(ChatColor.RED + "VICTOR");
-                        c.setCustomNameVisible(true);
-                        c.setHealth(4);
                     }
                 }
             }
