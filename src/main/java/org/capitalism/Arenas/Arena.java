@@ -4,6 +4,7 @@ import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.capitalism.Capitalism;
 import org.capitalism.Prospectors.Prospector;
@@ -55,10 +56,10 @@ public class Arena {
                  if (gameDuration == 360) {
                     Bukkit.getWorld("world").setStorm(true);
                 } else if (gameDuration == 240) {
-                    Bukkit.getworld("world").setThunder(true);
-                } else if (gameduration == 201) {
+                    Bukkit.getWorld("world").setThundering(true);
+                } else if (gameDuration == 201) {
                     for (Player p : Bukkit.getOnlinePlayers()) {
-                        p.playSound(p.getlocation, "cptlm:endgame",1,1);
+                        p.playSound(p.getLocation(), "cptlm:endgame",1,1);
                     } 
                 }
                 if(gameDuration > 0){
