@@ -1,7 +1,11 @@
 package org.capitalism.mission;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Creature;
+import org.bukkit.entity.EntityType;
+import org.bukkit.inventory.ItemStack;
 
 public class GRABDOULFOU extends CustomMob {
     public GRABDOULFOU(String name, int health, int speed, int damage, boolean baby, Creature mob) {
