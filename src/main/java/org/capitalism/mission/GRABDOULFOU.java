@@ -8,10 +8,10 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
 public class GRABDOULFOU extends CustomMob {
+
     public GRABDOULFOU(String name, int health, int speed, int damage, boolean baby, Creature mob) {
         super(baby, name, health, speed, damage, mob);
         mob.getEquipment().setHelmet(new ItemStack(Material.TNT, 1));
-
     }
 
     @Override
