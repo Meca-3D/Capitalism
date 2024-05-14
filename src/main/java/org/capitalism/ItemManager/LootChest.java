@@ -9,6 +9,7 @@ import org.bukkit.entity.ItemDisplay;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Transformation;
+import org.bukkit.util.Vector;
 import org.capitalism.Capitalism;
 import org.capitalism.Prospectors.Prospector;
 import org.joml.AxisAngle4f;
@@ -25,7 +26,7 @@ public class LootChest {
 
     private ItemDisplay leftDoor;
     private ItemDisplay rightDoor;
-
+    private UsableItem item;
     private Capitalism plugin;
 
    public LootChest(Interaction interaction, ItemDisplay itemDisplay, ItemDisplay leftDoor, ItemDisplay rightDoor, Location position, Capitalism plugin) {
@@ -35,6 +36,7 @@ public class LootChest {
        this.rightDoor = rightDoor;
        this.position = position;
        this.plugin = plugin;
+       this.item = null;
    }
 
    public void remove() {
@@ -49,7 +51,7 @@ public class LootChest {
     public void openChest() {
         Random random = new Random();
         int counter = 0;
-        UsableItem item = new UsableItem(position, plugin);
+        this.item = new UsableItem(position, plugin);
         item.itemCreation();
         animDoor(item);
     }
@@ -111,5 +113,13 @@ public class LootChest {
 
     public void setItemDisplay(ItemDisplay itemDisplay) {
         this.itemDisplay = itemDisplay;
+    }
+
+    public UsableItem getItem() {
+        return item;
+    }
+
+    public void setItem(UsableItem item) {
+        this.item = item;
     }
 }

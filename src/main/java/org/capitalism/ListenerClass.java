@@ -16,6 +16,7 @@ import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -47,10 +48,7 @@ public class ListenerClass implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event){
-        Bukkit.broadcastMessage("fzeg");
         event.getPlayer().getInventory().clear();
-        Location location = event.getPlayer().getLocation();
-        Interaction interaction = (Interaction) event.getPlayer().getWorld().spawnEntity(location, EntityType.INTERACTION);
         prospectors.add(new Prospector(event.getPlayer(), plugin));
         ItemStack J7 = new ItemStack(Material.WOODEN_HOE);
         ItemMeta meta = J7.getItemMeta();
@@ -74,23 +72,40 @@ public class ListenerClass implements Listener {
     public void onEntityInteraction(PlayerInteractAtEntityEvent event){
         if(event.getRightClicked().getType() == EntityType.INTERACTION){
             event.getPlayer().sendMessage("You just right clicked on a interaction entity");
-            for (LootChest chest :lootManager.getLootChests()) {
+
+            for (LootChest chest : lootManager.getLootChests()) {
+
                 if (chest.getInteraction() == event.getRightClicked()) {
                     chest.openChest();
                     chest.removeInteractions();
-                    lootManager.removeChest(chest);
                 }
+
+                if (chest.getItem() != null) {
+                    if (chest.getItem().getInteraction() == event.getRightClicked()) {
+                        ItemStack hand = null;
+                        if (event.getPlayer().getInventory().getItemInMainHand().hasItemMeta()) {
+                            hand = event.getPlayer().getInventory().getItemInMainHand();
+                        }
+
+                        int slot = event.getPlayer().getInventory().getHeldItemSlot();
+                        event.getPlayer().getInventory().setItem(slot, chest.getItem().getItemStack());
+
+                        if (hand != null) {
+                            chest.getItem().setItemStack(hand);
+                            chest.getItem().getItemDisplay().setItemStack(hand);
+                        } else {
+                            chest.getItem().getItemDisplay().setItemStack(null);
+                            chest.getItem().setItemStack(null);
+                            //lootManager.removeChest(chest);
+                        }
+                    }
+                }
+
             }
+
         }
     }
 
-    public void itemAnimation() {
-        new BukkitRunnable() {
-            public void run() {
-
-            }
-        }.runTaskTimer(plugin, 0, 1);
-    }
     @EventHandler
     public void onArrowHit(ProjectileHitEvent event){
         if(event.getEntityType() == EntityType.ARROW){
