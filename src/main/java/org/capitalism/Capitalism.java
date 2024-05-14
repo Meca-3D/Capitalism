@@ -13,7 +13,7 @@ import org.capitalism.Arenas.AreneManager;
 import org.capitalism.ItemManager.LootManager;
 import org.capitalism.Command.CommandClass;
 import org.capitalism.Prospectors.Prospector;
-import org.capitalism.Mission.Mission;
+import org.capitalism.Missions.Mission;
 
 public final class Capitalism extends JavaPlugin {
     private AreneManager areneManager;

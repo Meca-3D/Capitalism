@@ -13,14 +13,13 @@ import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 import org.capitalism.ItemManager.LootChest;
 import org.capitalism.ItemManager.LootManager;
 import org.capitalism.Prospectors.Prospector;
-import org.capitalism.Mission.AreaMission;
+import org.capitalism.Missions.AreaMission;
 
 import java.util.ArrayList;
 

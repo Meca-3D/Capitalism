@@ -1,4 +1,4 @@
-package org.capitalism.Mission;
+package org.capitalism.Missions;
 
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -21,6 +21,8 @@ public class AreaMission extends Mission {
         this.location2 = location2;
 
         this.target = prospector.getPlayer().getWorld().spawnEntity(location, EntityType.ARMOR_STAND);
+        this.target.setVisibleByDefault(false);
+        this.target.setInvulnerable(true);
     }
 
     @Override

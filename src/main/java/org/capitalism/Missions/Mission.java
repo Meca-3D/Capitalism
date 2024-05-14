@@ -1,4 +1,4 @@
-package org.capitalism.Mission;
+package org.capitalism.Missions;
 
 import org.bukkit.Location;
 import org.capitalism.Capitalism;
