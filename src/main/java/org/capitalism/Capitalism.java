@@ -12,6 +12,7 @@ import org.capitalism.Arenas.Arena;
 import org.capitalism.Arenas.AreneManager;
 import org.capitalism.ItemManager.LootManager;
 import org.capitalism.Command.CommandClass;
+import org.capitalism.Missions.AreaMission;
 import org.capitalism.Prospectors.Prospector;
 import org.capitalism.Missions.Mission;
 
@@ -36,7 +37,19 @@ public final class Capitalism extends JavaPlugin {
             for (Prospector player : listenerClass.getProspectors()) {
                 updateHUD(player);
             }
+        }, 0L, 2L);
+
+        Bukkit.getScheduler().runTaskTimer(this, () -> {
+            for (Prospector player : listenerClass.getProspectors()) {
+                for (Mission mission : player.getMissions()) {
+                    if (!mission.update()) {
+                        player.getMissions().remove(mission);
+                        mission = null;
+                    }
+                }
+            }
         }, 0L, 20L);
+
     }
 
     @Override
@@ -53,20 +66,22 @@ public final class Capitalism extends JavaPlugin {
 
         for (Mission mission : player.getMissions()) {
             //player.getPlayer().sendMessage(mission.getName() + " : " + mission.getState() + " | " + mission.update());
-            if (!mission.update()) {
-                player.getMissions().remove(mission);
-                mission = null;
-            }
-            ChatColor color = ChatColor.GREEN;
-            if (mission.getCurrentTimer() <= (mission.getTimer()/3))
-                color = ChatColor.RED;
-            else if (mission.getCurrentTimer() <= ((mission.getTimer()/3)*2))
-                color = ChatColor.YELLOW;
 
-            if (mission.getProgression() == 0D)
-                objective.getScore(color + mission.getName() + " | " + mission.getDirection() + " " + mission.getDistance() + " | " + mission.getCurrentTimer() ).setScore(0);
-            else
-                objective.getScore(color + mission.getName() + " | " + mission.getProgression() + "% | " + mission.getCurrentTimer() ).setScore(0);
+
+            ChatColor color = ChatColor.WHITE;
+            if (mission instanceof AreaMission ) {
+                if (((AreaMission) mission).isInArea())
+                    objective.getScore(color + mission.getName() + " | " + mission.getProgression() + "% | " + mission.getCurrentTimer() ).setScore(0);
+                else {
+                    color = ChatColor.GREEN;
+                    if (mission.getCurrentTimer() <= (mission.getTimer()/3))
+                        color = ChatColor.RED;
+                    else if (mission.getCurrentTimer() <= ((mission.getTimer()/3)*2))
+                        color = ChatColor.YELLOW;
+                    objective.getScore(color + mission.getName() + " | " + mission.getDirection() + " " + mission.getDistance() + " | " + mission.getCurrentTimer()).setScore(0);
+
+                }
+            }
         }
 
         player.getPlayer().setScoreboard(scoreboard);

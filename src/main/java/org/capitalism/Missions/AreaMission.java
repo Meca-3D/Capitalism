@@ -27,27 +27,24 @@ public class AreaMission extends Mission {
 
     @Override
     public boolean update() {
-        if (isInArea(prospector, location1, location2)) {
+        if (isInArea()) {
             if (Objects.equals(state, "avaliable")) {
                 state = "in progress";
             } else {
-                progression += 0.5;
+                progression += 1;
                 if (progression == 100D) {
                     prospector.addMoney(this.profit);
                     return false;
                 }
-                if ((progression % 5) == 0) {
+                if ((progression % 20) == 0) {
                     for (int i = 0; i < (Math.round(Math.random() * (50)) + 10); i++) {
                         World w = prospector.getPlayer().getLocation().getWorld();
                         double k = Math.round(Math.random() * (359)) + 1;
                         double x = location.getX() + Math.cos(Math.toRadians(k)) * 20;
                         double z = location.getZ() + Math.sin(Math.toRadians(k)) * 20;
                         Location loc = new Location(w, x, w.getHighestBlockYAt((int) x, (int) z), z);
-                        //w.spawnEntity(loc, EntityType.ZOMBIE);
-//                        Creature c = (Creature) w.spawnEntity(loc, EntityType.ZOMBIE);
-//                        GRABDOUL abdel = new GRABDOUL("abdel",20,0, 0, true, c);
-                        new GRABDOULFOU(plugin, target, prospector, loc);
 
+                        new GRABDOULFOU(plugin, target, prospector, loc);
 
                     }
                 }
@@ -58,8 +55,9 @@ public class AreaMission extends Mission {
         return true;
     }
 
-    public boolean isInArea(Prospector player, Location location1, Location location2) {
-        Location playerLocation = player.getPlayer().getLocation();
+    public boolean isInArea() {
+
+        Location playerLocation = prospector.getPlayer().getLocation();
 
         double x1 = Math.min(location1.getX(), location2.getX());
         double y1 = Math.min(location1.getY(), location2.getY());

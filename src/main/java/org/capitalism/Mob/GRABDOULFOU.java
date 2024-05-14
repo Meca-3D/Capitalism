@@ -49,13 +49,14 @@ public class GRABDOULFOU extends CustomMob {
                     return;
                 }
 
-                if (mob.getTarget() == null) {
+                if (mob.getTarget() == null)
                     mob.setTarget((LivingEntity) target);
-                }
+                else if (mob.getTarget() != target)
+                    mob.getLocation().getWorld().spawnEntity(mob.getTarget().getLocation(), EntityType.LIGHTNING);
 
                 //mob.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 120, 1));
                 //mob.getLocation().getWorld().spawnEntity(mob.getTarget().getLocation(), EntityType.MINECART_TNT);
-                mob.getLocation().getWorld().spawnEntity(mob.getTarget().getLocation(), EntityType.LIGHTNING);
+
 
             }
 
