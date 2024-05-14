@@ -1,14 +1,11 @@
-package org.capitalism.mission;
+package org.capitalism.Mission;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.attribute.AttributeInstance;
-import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.scheduler.BukkitRunnable;
+import org.capitalism.Capitalism;
+import org.capitalism.Mob.GRABDOULFOU;
 import org.capitalism.Prospectors.Prospector;
 import java.util.Objects;
 
@@ -16,11 +13,14 @@ public class AreaMission extends Mission {
 
     private Location location1;
     private Location location2;
+    private Entity target;
 
-    public AreaMission(String name, int timer, Location location, int profit, int level, String state, Prospector prospector, Location location1, Location location2) {
-        super(name, timer, location, profit, level, state, prospector);
+    public AreaMission(Capitalism plugin, String name, int timer, Location location, int profit, int level, String state, Prospector prospector, Location location1, Location location2) {
+        super(plugin, name, timer, location, profit, level, state, prospector);
         this.location1 = location1;
         this.location2 = location2;
+
+        this.target = prospector.getPlayer().getWorld().spawnEntity(location, EntityType.ARMOR_STAND);
     }
 
     @Override
@@ -42,23 +42,11 @@ public class AreaMission extends Mission {
                         double z = location.getZ() + Math.sin(Math.toRadians(k)) * 20;
                         Location loc = new Location(w, x, w.getHighestBlockYAt((int) x, (int) z), z);
                         //w.spawnEntity(loc, EntityType.ZOMBIE);
-                        Creature c = (Creature) w.spawnEntity(loc, EntityType.ZOMBIE);
-                        GRABDOUL abdel = new GRABDOUL("abdel",20,0, 0, true, c);
-                        GRABDOULFOU abdel2 = new GRABDOULFOU("TaLiBaN",20,0, 0, true, c);
+//                        Creature c = (Creature) w.spawnEntity(loc, EntityType.ZOMBIE);
+//                        GRABDOUL abdel = new GRABDOUL("abdel",20,0, 0, true, c);
+                        new GRABDOULFOU(plugin, target, prospector, loc);
 
 
-                        abdel.update();
-                        abdel2.update();
-
-                        Creature d = (Creature) w.spawnEntity(loc, EntityType.ZOMBIE);
-
-                        c.getTarget();
-                        Entity a = w.spawnEntity(new Location(w, 0, 72, 0), EntityType.ARMOR_STAND);
-                        c.setTarget((LivingEntity) a);
-
-                        c.setCustomName(ChatColor.RED + "VICTOR");
-                        c.setCustomNameVisible(true);
-                        c.setHealth(4);
                     }
                 }
             }

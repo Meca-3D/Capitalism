@@ -4,13 +4,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Interaction;
-import org.bukkit.entity.ItemDisplay;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -18,14 +15,11 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.capitalism.ItemManager.LootChest;
 import org.capitalism.ItemManager.LootManager;
-import org.bukkit.util.Vector;
 import org.capitalism.Prospectors.Prospector;
-import org.capitalism.mission.AreaMission;
-import org.capitalism.mission.Mission;
+import org.capitalism.Mission.AreaMission;
 
 import java.util.ArrayList;
 
@@ -47,7 +41,6 @@ public class ListenerClass implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event){
-        Bukkit.broadcastMessage("fzeg");
         event.getPlayer().getInventory().clear();
         Location location = event.getPlayer().getLocation();
         Interaction interaction = (Interaction) event.getPlayer().getWorld().spawnEntity(location, EntityType.INTERACTION);
@@ -60,7 +53,7 @@ public class ListenerClass implements Listener {
 
         //prospectors.get(prospectors.size()-1).addMission(new AreaMission("Gold Farmer", 30, 30, new Location(event.getPlayer().getWorld(), 0, 0, 0), 35, 1, "avaliable", prospectors.get(prospectors.size()-1), new Location(event.getPlayer().getWorld(), 50, 150, 50), new Location(event.getPlayer().getWorld(), -50, -150, -50)));
         //prospectors.get(prospectors.size()-1).addMission(new Mission("Gold Farmer", 30, 30, new Location(event.getPlayer().getWorld(), 0, 0, 0), 35, 1, "avaliable", prospectors.get(prospectors.size()-1)));
-        getProspector(event.getPlayer()).addMission(new AreaMission("Gold Farmer", 30, new Location(event.getPlayer().getWorld(), 0, 0, 0), 35, 1, "avaliable", getProspector(event.getPlayer()), new Location(event.getPlayer().getWorld(), 50, 150, 50), new Location(event.getPlayer().getWorld(), -50, -150, -50)));
+        getProspector(event.getPlayer()).addMission(new AreaMission(plugin, "Gold Farmer", 30, new Location(event.getPlayer().getWorld(), 0, 72, 0), 35, 1, "avaliable", getProspector(event.getPlayer()), new Location(event.getPlayer().getWorld(), 50, 150, 50), new Location(event.getPlayer().getWorld(), -50, -150, -50)));
 
     }
 
@@ -84,13 +77,6 @@ public class ListenerClass implements Listener {
         }
     }
 
-    public void itemAnimation() {
-        new BukkitRunnable() {
-            public void run() {
-
-            }
-        }.runTaskTimer(plugin, 0, 1);
-    }
     @EventHandler
     public void onArrowHit(ProjectileHitEvent event){
         if(event.getEntityType() == EntityType.ARROW){
@@ -154,15 +140,17 @@ public class ListenerClass implements Listener {
 
     }
 
-    /*@EventHandler
-        public void onRightClick(PlayerInteractEvent event) {
-            Prospector prospector = getProspector(event.getPlayer());
-            Action action = event.getAction();
-
-            if (action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK)) {
-
+    @EventHandler
+    public void onPlayerAttack(EntityDamageByEntityEvent event)
+    {
+        if(!(event.getEntity() instanceof Player) && event.getDamager() instanceof Player) {
+            Bukkit.broadcastMessage("NOT ZOMBI");
+            if (event.getEntity() instanceof Zombie) {
+                Bukkit.broadcastMessage("ZOMBI");
+                ((Zombie) event.getEntity()).setTarget((LivingEntity) event.getDamager());
             }
-        }*/
+        }
+    }
 
     public Prospector getProspector(Player player) {
         for(Prospector prospector : prospectors){
