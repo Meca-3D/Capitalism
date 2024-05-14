@@ -4,7 +4,7 @@ import org.bukkit.entity.Player;
 import org.capitalism.Capitalism;
 import org.capitalism.Weapons.Sniper.Eagle50;
 import org.capitalism.Weapons.WeaponInterface;
-import org.capitalism.mission.Mission;
+import org.capitalism.Mission.Mission;
 import java.util.ArrayList;
 
 

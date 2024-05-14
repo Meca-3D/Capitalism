@@ -1,7 +1,7 @@
-package org.capitalism.mission;
+package org.capitalism.Mission;
 
 import org.bukkit.Location;
-import org.bukkit.util.Vector;
+import org.capitalism.Capitalism;
 import org.capitalism.Prospectors.Prospector;
 
 import java.util.HashMap;
@@ -19,7 +19,9 @@ public class Mission {
     protected Prospector prospector;
     protected Double progression;
 
-    public Mission(String name, int timer, Location location, int profit, int level, String state, Prospector prospector) {
+    protected Capitalism plugin;
+
+    public Mission(Capitalism plugin, String name, int timer, Location location, int profit, int level, String state, Prospector prospector) {
         this.name = name;
         this.timer = timer;
         this.location = location;
@@ -29,6 +31,7 @@ public class Mission {
         this.state = state;
         this.prospector = prospector;
         this.progression = 0D;
+        this.plugin = plugin;
     }
 
     private String getDirectionFromYaw(float yaw) {
