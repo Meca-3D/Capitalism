@@ -22,7 +22,7 @@ import org.capitalism.Prospectors.Prospector;
 import org.capitalism.Missions.AreaMission;
 
 import java.util.ArrayList;
-
+import java.util.Random;
 
 
 public class ListenerClass implements Listener {
@@ -41,6 +41,11 @@ public class ListenerClass implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event){
+        if (prospectors.isEmpty()) {
+            for (Entity e : event.getPlayer().getWorld().getEntities()) {
+                e.remove();
+            }
+        }
         event.getPlayer().getInventory().clear();
         prospectors.add(new Prospector(event.getPlayer(), plugin));
         ItemStack J7 = new ItemStack(Material.WOODEN_HOE);
@@ -60,6 +65,15 @@ public class ListenerClass implements Listener {
         prospectors.remove(getProspector(event.getPlayer()));
     }
 
+    @EventHandler
+    public void onMobKilled (EntityDamageByEntityEvent event) {
+        if (((LivingEntity)event.getEntity()).getHealth() - event.getDamage() <= 0) {
+            if (event.getDamager() instanceof Player) {
+                Player p = (Player) event.getDamager();
+                getProspector(p).addMoney(new Random().nextInt(2, 6));
+            }
+        }
+    }
 
     @EventHandler
     public void onEntityInteraction(PlayerInteractAtEntityEvent event){
