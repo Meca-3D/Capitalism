@@ -51,8 +51,8 @@ public class Eagle50 extends Weapon implements WeaponInterface {
                     for(Entity e : loc.getWorld().getEntities()){
                         if(result != null){
                             if(result.getHitEntity() != null){
-                                if(!result.getHitEntity().equals(player) && result.getHitEntity() instanceof Player){
-                                    if(listenerClass.getProspector(((Player) result.getHitEntity()).getPlayer()) != null){
+                                if(!result.getHitEntity().equals(player)){
+                                    if(result.getHitEntity() instanceof Player && listenerClass.getProspector(((Player) result.getHitEntity()).getPlayer()) != null){
                                         listenerClass.getProspector(((Player) result.getHitEntity()).getPlayer()).takeDamage(5);
                                         player.sendMessage(listenerClass.getProspector(((Player) result.getHitEntity()).getPlayer()).getHealth() + " health left");
                                     } else {

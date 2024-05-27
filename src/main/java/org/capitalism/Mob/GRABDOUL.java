@@ -2,10 +2,7 @@ package org.capitalism.Mob;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Zombie;
+import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.capitalism.Capitalism;
@@ -52,7 +49,7 @@ public class GRABDOUL extends CustomMob {
                     return;
                 }
 
-                if (mob.getTarget() == null) {
+                if (!(mob.getTarget() instanceof Player)) {
                     mob.setTarget((LivingEntity) target);
                 }
 

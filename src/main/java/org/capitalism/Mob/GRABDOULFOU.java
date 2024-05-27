@@ -49,7 +49,7 @@ public class GRABDOULFOU extends CustomMob {
                     return;
                 }
 
-                if (mob.getTarget() == null)
+                if (!(mob.getTarget() instanceof Player))
                     mob.setTarget((LivingEntity) target);
                 else if (mob.getTarget() != target)
                     mob.getLocation().getWorld().spawnEntity(mob.getTarget().getLocation(), EntityType.LIGHTNING);
