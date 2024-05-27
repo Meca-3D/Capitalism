@@ -27,10 +27,11 @@ public final class Capitalism extends JavaPlugin {
         listenerClass = new ListenerClass(lootManager, this);
         areneManager = new AreneManager(this);
         areneManager.addArena(new Arena(1200, 0,this));
-        CommandClass commands = new CommandClass(areneManager, listenerClass);
+        CommandClass commands = new CommandClass(areneManager, listenerClass, this, lootManager);
 
         getCommand("join").setExecutor(commands);
         getCommand("start").setExecutor(commands);
+
         getServer().getPluginManager().registerEvents(listenerClass, this);
 
         Bukkit.getScheduler().runTaskTimer(this, () -> {

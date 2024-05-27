@@ -16,7 +16,7 @@ import org.capitalism.Capitalism;
 import java.util.Random;
 import java.util.stream.IntStream;
 
-public class UsableItem {
+public class UsableItem extends Container {
 
     private Interaction interaction;
     private ItemDisplay itemDisplay;
@@ -26,11 +26,12 @@ public class UsableItem {
     private Capitalism plugin;
 
     public UsableItem(Location position, Capitalism plugin) {
-        this.interaction = null;
+        super(null);
         this.itemDisplay = null;
         this.itemStack = null;
         this.position = position;
         this.plugin = plugin;
+        this.itemCreation();
     }
 
     public void itemCreation() {

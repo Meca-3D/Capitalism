@@ -16,8 +16,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
-import org.capitalism.ItemManager.LootChest;
-import org.capitalism.ItemManager.LootManager;
+import org.capitalism.ItemManager.*;
 import org.capitalism.Prospectors.Prospector;
 import org.capitalism.Missions.AreaMission;
 
@@ -80,33 +79,44 @@ public class ListenerClass implements Listener {
         if(event.getRightClicked().getType() == EntityType.INTERACTION){
             event.getPlayer().sendMessage("You just right clicked on a interaction entity");
 
-            for (LootChest chest : lootManager.getLootChests()) {
+            for (Container loot : lootManager.getLoots()) {
 
-                if (chest.getInteraction() == event.getRightClicked()) {
-                    chest.openChest();
-                    chest.removeInteractions();
+                UsableItem item = null;
+
+                if (loot instanceof LootChest) {
+                    LootChest chest = (LootChest) loot;
+                    item = chest.getItem();
+                    if (chest.getInteraction() == event.getRightClicked()) {
+                        chest.openChest();
+                        chest.removeInteractions();
+                    }
                 }
 
-                if (chest.getItem() != null) {
-                    if (chest.getItem().getInteraction() == event.getRightClicked()) {
+                if (loot instanceof ShopDisplay) {
+                    item = ((ShopDisplay) loot).getItem();
+                }
+
+                if (item != null) {
+                    if (item.getInteraction() == event.getRightClicked()) {
                         ItemStack hand = null;
                         if (event.getPlayer().getInventory().getItemInMainHand().hasItemMeta()) {
                             hand = event.getPlayer().getInventory().getItemInMainHand();
                         }
 
                         int slot = event.getPlayer().getInventory().getHeldItemSlot();
-                        event.getPlayer().getInventory().setItem(slot, chest.getItem().getItemStack());
+                        event.getPlayer().getInventory().setItem(slot, item.getItemStack());
 
                         if (hand != null) {
-                            chest.getItem().setItemStack(hand);
-                            chest.getItem().getItemDisplay().setItemStack(hand);
+                            item.setItemStack(hand);
+                            item.getItemDisplay().setItemStack(hand);
                         } else {
-                            chest.getItem().getItemDisplay().setItemStack(null);
-                            chest.getItem().setItemStack(null);
+                            item.getItemDisplay().setItemStack(null);
+                            item.setItemStack(null);
                             //lootManager.removeChest(chest);
                         }
                     }
                 }
+
 
             }
 
@@ -165,7 +175,7 @@ public class ListenerClass implements Listener {
                     leftChestDoorModel.setItemStack(leftChestDoor);
                     leftChestDoorModel.setDisplayWidth(2);
 
-                    lootManager.addChest(new LootChest(interaction1, chestModel, leftChestDoorModel, rightChestDoorModel, location, plugin));
+                    lootManager.add(new LootChest(interaction1, chestModel, leftChestDoorModel, rightChestDoorModel, location, plugin));
 
 
                 } else {

@@ -18,9 +18,7 @@ import org.joml.Vector3f;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class LootChest {
-
-    private Interaction interaction;
+public class LootChest extends Container{
     private ItemDisplay itemDisplay;
     private Location position;
 
@@ -30,7 +28,7 @@ public class LootChest {
     private Capitalism plugin;
 
    public LootChest(Interaction interaction, ItemDisplay itemDisplay, ItemDisplay leftDoor, ItemDisplay rightDoor, Location position, Capitalism plugin) {
-       this.interaction = interaction;
+       super(interaction);
        this.itemDisplay = itemDisplay;
        this.leftDoor = leftDoor;
        this.rightDoor = rightDoor;
@@ -49,10 +47,7 @@ public class LootChest {
    }
     private float duration;
     public void openChest() {
-        Random random = new Random();
-        int counter = 0;
         this.item = new UsableItem(position, plugin);
-        item.itemCreation();
         animDoor(item);
     }
 
@@ -97,10 +92,6 @@ public class LootChest {
                 }
             }
         }.runTaskTimer(plugin, 0L, 1L);
-    }
-
-    public Interaction getInteraction() {
-       return this.interaction;
     }
 
     public void setInteraction(Interaction interaction) {

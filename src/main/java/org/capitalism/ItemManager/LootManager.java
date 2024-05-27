@@ -3,7 +3,7 @@ package org.capitalism.ItemManager;
 import java.util.ArrayList;
 
 public class LootManager {
-    private ArrayList<LootChest> lootChests;
+    private ArrayList<Container> loots;
     private ArrayList<UsableItem> items;
 
     public ArrayList<UsableItem> getItems() {
@@ -14,16 +14,16 @@ public class LootManager {
     }
 
     public LootManager() {
-        this.lootChests = new ArrayList<>();
+        this.loots = new ArrayList<>();
     }
-    public void addChest(LootChest chest) {
-        this.lootChests.add(chest);
+    public void add(Container container) {
+        this.loots.add(container);
     }
     public void removeChest(LootChest chest) {
-        this.lootChests.remove(chest);
+        this.loots.remove(chest);
     }
-    public ArrayList<LootChest> getLootChests() {
-        return lootChests;
+    public ArrayList<Container> getLoots() {
+        return loots;
     }
 
 
