@@ -53,9 +53,9 @@ public class ListenerClass implements Listener {
         J7.setItemMeta(meta);
         event.getPlayer().getInventory().addItem(J7);
 
-        //prospectors.get(prospectors.size()-1).addMission(new AreaMission("Gold Farmer", 30, 30, new Location(event.getPlayer().getWorld(), 0, 0, 0), 35, 1, "avaliable", prospectors.get(prospectors.size()-1), new Location(event.getPlayer().getWorld(), 50, 150, 50), new Location(event.getPlayer().getWorld(), -50, -150, -50)));
-        //prospectors.get(prospectors.size()-1).addMission(new Mission("Gold Farmer", 30, 30, new Location(event.getPlayer().getWorld(), 0, 0, 0), 35, 1, "avaliable", prospectors.get(prospectors.size()-1)));
-        getProspector(event.getPlayer()).addMission(new AreaMission(plugin, "Gold Farmer", 30, new Location(event.getPlayer().getWorld(), 0, 72, 0), 35, 1, "avaliable", getProspector(event.getPlayer()), new Location(event.getPlayer().getWorld(), 50, 150, 50), new Location(event.getPlayer().getWorld(), -50, -150, -50)));
+        //prospectors.get(prospectors.size()-1).addMission(new AreaMission("Gold Farmer", 30, 30, new Location(event.getPlayer().getWorld(), 0, 0, 0), 35, 1, "available", prospectors.get(prospectors.size()-1), new Location(event.getPlayer().getWorld(), 50, 150, 50), new Location(event.getPlayer().getWorld(), -50, -150, -50)));
+        //prospectors.get(prospectors.size()-1).addMission(new Mission("Gold Farmer", 30, 30, new Location(event.getPlayer().getWorld(), 0, 0, 0), 35, 1, "available", prospectors.get(prospectors.size()-1)));
+        getProspector(event.getPlayer()).addMission(new AreaMission(plugin, "Gold Farmer", 30, new Location(event.getPlayer().getWorld(), 0, 72, 0), 35, 1, getProspector(event.getPlayer()), new Location(event.getPlayer().getWorld(), 50, 150, 50), new Location(event.getPlayer().getWorld(), -50, -150, -50)));
 
     }
 

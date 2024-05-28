@@ -72,7 +72,7 @@ public final class Capitalism extends JavaPlugin {
             ChatColor color = ChatColor.WHITE;
             if (mission instanceof AreaMission ) {
                 if (((AreaMission) mission).isInArea())
-                    objective.getScore(color + mission.getName() + " | " + mission.getProgression() + "% | " + mission.getCurrentTimer() ).setScore(0);
+                    objective.getScore(color + mission.getName() + " | " + mission.getProgression() + "% " ).setScore(0);
                 else {
                     color = ChatColor.GREEN;
                     if (mission.getCurrentTimer() <= (mission.getTimer()/3))

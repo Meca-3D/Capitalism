@@ -15,20 +15,20 @@ public class Mission {
     protected Location location;
     protected int profit;
     protected int level;
-    protected String state;
+    protected String state; // can be : available, in progress, finished // => pas commence, en cour, fini
     protected Prospector prospector;
     protected Double progression;
 
     protected Capitalism plugin;
 
-    public Mission(Capitalism plugin, String name, int timer, Location location, int profit, int level, String state, Prospector prospector) {
+    public Mission(Capitalism plugin, String name, int timer, Location location, int profit, int level, Prospector prospector) {
         this.name = name;
         this.timer = timer;
         this.location = location;
         this.profit = profit;
         this.level = level;
         this.currentTimer = timer;
-        this.state = state;
+        this.state = "available";
         this.prospector = prospector;
         this.progression = 0D;
         this.plugin = plugin;

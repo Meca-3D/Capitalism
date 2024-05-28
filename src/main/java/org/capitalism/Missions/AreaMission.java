@@ -15,8 +15,8 @@ public class AreaMission extends Mission {
     private Location location2;
     private Entity target;
 
-    public AreaMission(Capitalism plugin, String name, int timer, Location location, int profit, int level, String state, Prospector prospector, Location location1, Location location2) {
-        super(plugin, name, timer, location, profit, level, state, prospector);
+    public AreaMission(Capitalism plugin, String name, int timer, Location location, int profit, int level, Prospector prospector, Location location1, Location location2) {
+        super(plugin, name, timer, location, profit, level, prospector);
         this.location1 = location1;
         this.location2 = location2;
 
@@ -27,12 +27,16 @@ public class AreaMission extends Mission {
 
     @Override
     public boolean update() {
+        if (currentTimer <= 0) {
+            return false;
+        }
         if (isInArea()) {
-            if (Objects.equals(state, "avaliable")) {
+            if (Objects.equals(state, "available")) {
                 state = "in progress";
             } else {
                 progression += 1;
                 if (progression == 100D) {
+                    state = "finished";
                     prospector.addMoney(this.profit);
                     return false;
                 }
@@ -49,7 +53,7 @@ public class AreaMission extends Mission {
                     }
                 }
             }
-        } else if (Objects.equals(state, "avaliable")) {
+        } else if (Objects.equals(state, "available")) {
             updateTimer();
         }
         return true;
