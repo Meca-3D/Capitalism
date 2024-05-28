@@ -21,7 +21,7 @@ public class Eagle50 extends Weapon implements WeaponInterface {
     private Capitalism plugin;
     private ListenerClass listenerClass;
     public Eagle50(Player player, Capitalism plugin) {
-        super(5, 20, 20, 4, "Eagle .50", player);
+        super(5, 20, 20, 4, "Eagle .50", player, 2, 450.00d);
         this.plugin = plugin;
         this.listenerClass = plugin.getListenerClass();
     }

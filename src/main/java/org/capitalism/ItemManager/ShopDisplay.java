@@ -28,7 +28,7 @@ public class ShopDisplay extends Container {
         this.itemDisplay = itemDisplay;
         this.position = position;
         this.plugin = plugin;
-        this.item = new UsableItem(position.add(new Vector(0, 0.5f, 0)), plugin);
+        this.item = new UsableItem(position.add(new Vector(0, 0.5f, 0)), plugin, false);
         this.item.getItemDisplay().setRotation(0f, -67.5f);
         //this.item.getItemDisplay().setTransformation(new Transformation(new Vector3f(), new AxisAngle4f(22.5f, 1f, 0f, 0f), new Vector3f(1f, 1f, 1f), new AxisAngle4f()));
     }

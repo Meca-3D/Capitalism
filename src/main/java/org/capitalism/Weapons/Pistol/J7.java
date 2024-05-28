@@ -8,7 +8,7 @@ import org.capitalism.Weapons.WeaponInterface;
 public class J7 extends Weapon implements WeaponInterface {
 
     public J7(Player player) {
-        super(7, 10, 600, 1, "J-7", player);
+        super(7, 10, 600, 1, "J-7", player, 1, 120.00d);
     }
 
     @Override

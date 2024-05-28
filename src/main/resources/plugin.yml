@@ -7,3 +7,5 @@ commands:
     description: "Start the game"
   join:
     description: "Join the game"
+  shop:
+    description: "Spawn shop"

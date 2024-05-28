@@ -47,7 +47,7 @@ public class LootChest extends Container{
    }
     private float duration;
     public void openChest() {
-        this.item = new UsableItem(position, plugin);
+        this.item = new UsableItem(position, plugin, true);
         animDoor(item);
     }
 

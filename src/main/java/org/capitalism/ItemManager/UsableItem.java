@@ -12,6 +12,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.capitalism.Capitalism;
+import org.capitalism.Weapons.Pistol.J7;
+import org.capitalism.Weapons.Shotgun.Brimstone;
+import org.capitalism.Weapons.Sniper.Eagle50;
+import org.capitalism.Weapons.Weapon;
 
 import java.util.Random;
 import java.util.stream.IntStream;
@@ -22,15 +26,19 @@ public class UsableItem extends Container {
     private ItemDisplay itemDisplay;
     private ItemStack itemStack;
     private Location position;
-
     private Capitalism plugin;
+    private Boolean owned;
+    private double price;
+    private Weapon weapon;
 
-    public UsableItem(Location position, Capitalism plugin) {
+    public UsableItem(Location position, Capitalism plugin, Boolean owned) {
         super(null);
         this.itemDisplay = null;
         this.itemStack = null;
         this.position = position;
         this.plugin = plugin;
+        this.owned = owned;
+        this.price = 0.00;
         this.itemCreation();
     }
 
@@ -43,15 +51,29 @@ public class UsableItem extends Container {
         this.itemStack = new ItemStack(Material.WOODEN_HOE);
         ItemMeta meta = this.itemStack.getItemMeta();
         Random random = new Random();
-        meta.setCustomModelData(random.nextInt(1,3));
+        int modelData = random.nextInt(1,3);
+        meta.setCustomModelData(modelData);
         this.itemStack.setItemMeta(meta);
-
-
 
         this.itemDisplay.setItemDisplayTransform(ItemDisplay.ItemDisplayTransform.GROUND);
         this.itemDisplay.setItemStack(this.itemStack);
         this.itemDisplay.setDisplayWidth(0.5f);
         this.itemDisplay.setDisplayHeight(0.5f);
+
+        switch(modelData) {
+            case 1:
+                this.weapon = new J7(null);
+                break;
+            case 2:
+                this.weapon = new Eagle50(null, plugin);
+                break;
+            default:
+               this.weapon = new Brimstone(null);
+        }
+
+
+        this.price = this.weapon.getPrice();
+        //Bukkit.broadcastMessage(String.valueOf(price));
 
     }
 
@@ -73,5 +95,21 @@ public class UsableItem extends Container {
 
     public void setItemDisplay(ItemDisplay itemDisplay) {
         this.itemDisplay = itemDisplay;
+    }
+
+    public Boolean getOwned() {
+        return owned;
+    }
+
+    public void setOwned(Boolean owned) {
+        this.owned = owned;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public double getPrice() {
+        return price;
     }
 }

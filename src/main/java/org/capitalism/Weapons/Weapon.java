@@ -12,8 +12,10 @@ public class Weapon {
     protected int reloadTime;
     protected double lastShot;
     protected Player player;
+    protected int customModelData;
+    protected double price;
 
-    public Weapon(int maxAmmo, int damage, double fireRate, int reloadTime, String name, Player player) {
+    public Weapon(int maxAmmo, int damage, double fireRate, int reloadTime, String name, Player player, int customModelData, double price) {
         this.name = name;
         this.maxAmmo = maxAmmo;
         this.ammo = maxAmmo;
@@ -22,5 +24,11 @@ public class Weapon {
         this.reloadTime = reloadTime;
         this.player = player;
         this.lastShot = System.currentTimeMillis();
+        this.customModelData = customModelData;
+        this.price = price;
+    }
+
+    public double getPrice() {
+        return price;
     }
 }

@@ -8,7 +8,7 @@ import org.capitalism.Weapons.WeaponInterface;
 public class Brimstone extends Weapon implements WeaponInterface {
 
     public Brimstone(Player player) {
-        super(5, 20, 1500, 4, "Brimstone", player);
+        super(5, 20, 1500, 4, "Brimstone", player, 3, 300.00d);
     }
 
     @Override

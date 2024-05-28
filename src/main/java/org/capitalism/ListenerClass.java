@@ -109,9 +109,11 @@ public class ListenerClass implements Listener {
                         if (hand != null) {
                             item.setItemStack(hand);
                             item.getItemDisplay().setItemStack(hand);
+                            item.setOwned(true);
                         } else {
                             item.getItemDisplay().setItemStack(null);
                             item.setItemStack(null);
+                            item.setOwned(true);
                             //lootManager.removeChest(chest);
                         }
                     }
@@ -189,11 +191,11 @@ public class ListenerClass implements Listener {
     @EventHandler
     public void onPlayerAttack(EntityDamageByEntityEvent event)
     {
-        if(!(event.getEntity() instanceof Player) && event.getDamager() instanceof Player) {
-            Bukkit.broadcastMessage("NOT ZOMBI");
-            if (event.getEntity() instanceof Zombie) {
-                Bukkit.broadcastMessage("ZOMBI");
-                ((Zombie) event.getEntity()).setTarget((LivingEntity) event.getDamager());
+        if (event.getDamager() != null && event.getEntity() != null) {
+            if(!(event.getEntity() instanceof Player) && event.getDamager() instanceof Player) {
+                if (event.getEntity() instanceof Zombie) {
+                    ((Zombie) event.getEntity()).setTarget((LivingEntity) event.getDamager());
+                }
             }
         }
     }

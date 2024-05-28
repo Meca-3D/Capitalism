@@ -1,11 +1,15 @@
 package org.capitalism.Prospectors;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.capitalism.Capitalism;
 import org.capitalism.Weapons.Sniper.Eagle50;
 import org.capitalism.Weapons.WeaponInterface;
 import org.capitalism.Missions.Mission;
 import java.util.ArrayList;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 
 public class Prospector {
@@ -17,6 +21,7 @@ public class Prospector {
     private Capitalism plugin;
     private ArrayList<Mission> missions;
     private int money;
+    private static final int MAX_DISTANCE = 3;
 
     public Prospector(Player player, Capitalism plugin){
         this.name = player.getName();
@@ -82,4 +87,21 @@ public class Prospector {
         }
 
     }
+
+    public Entity getTargetEntity() {
+        Location eyeLocation = player.getEyeLocation();
+        Vector direction = eyeLocation.getDirection().normalize();
+        for (int i = 0; i < MAX_DISTANCE; i++) {
+            Location checkLocation = eyeLocation.add(direction);
+            for (Entity entity : player.getWorld().getNearbyEntities(checkLocation, 0.3, 0.3, 0.3)) {
+                if (entity != player) {
+                    return entity;
+                }
+            }
+        }
+        return null;
+    }
+
+
+
 }

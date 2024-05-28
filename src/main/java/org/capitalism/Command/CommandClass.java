@@ -47,12 +47,12 @@ public class CommandClass implements CommandExecutor {
             player.sendMessage("§e§l(!) §eYou Just Join the Arena " + areneManager.getActualGame().getId());
         }
 
-//        if (cmd.getName().equalsIgnoreCase("start")) {
-//            areneManager.getActualGame().start();
-//            player.sendMessage("§e§l(!) §eYou Just Start the Game in the Arena " + areneManager.getActualGame().getId());
-//        }
-
         if (cmd.getName().equalsIgnoreCase("start")) {
+            areneManager.getActualGame().start();
+            player.sendMessage("§e§l(!) §eYou Just Start the Game in the Arena " + areneManager.getActualGame().getId());
+        }
+
+        if (cmd.getName().equalsIgnoreCase("shop")) {
 
             Location location = player.getLocation();
 
