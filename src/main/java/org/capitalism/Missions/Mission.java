@@ -25,7 +25,7 @@ public class Mission {
     public Mission(Capitalism plugin, String name, int timer, Location location, int profit, int level, Prospector prospector) {
         this.name = name;
         this.timer = timer;
-        this.location = location;
+        this.location = location.clone();
         this.profit = profit;
         this.level = level;
         this.currentTimer = timer;
@@ -175,7 +175,6 @@ public class Mission {
         return  Math.round(Math.sqrt(Math.pow((location.getX() - prospector.getPlayer().getLocation().getX()), 2) + Math.pow((location.getZ() - prospector.getPlayer().getLocation().getZ()), 2)) );
     }
 
-
     public Prospector getProspector() {
         return prospector;
     }
@@ -190,7 +189,6 @@ public class Mission {
 
     public void updateTimer() {
         currentTimer -= 1;
-        location.setY(prospector.getPlayer().getLocation().getY());
     }
 
     public String getState() {

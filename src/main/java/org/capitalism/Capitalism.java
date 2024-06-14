@@ -25,10 +25,10 @@ public final class Capitalism extends JavaPlugin {
     @Override
     public void onEnable() {
         lootManager = new LootManager(null, this);
-        listenerClass = new ListenerClass(lootManager, this);
-        lootManager.setListenerClass(listenerClass);
         areneManager = new AreneManager(this);
         areneManager.addArena(new Arena(1200, 0,this));
+        listenerClass = new ListenerClass(lootManager, areneManager, this);
+        lootManager.setListenerClass(listenerClass);
         CommandClass commands = new CommandClass(areneManager, listenerClass, this, lootManager);
 
         getCommand("join").setExecutor(commands);

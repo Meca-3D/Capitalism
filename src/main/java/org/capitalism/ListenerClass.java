@@ -16,6 +16,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
+import org.capitalism.Arenas.AreneManager;
 import org.capitalism.ItemManager.*;
 import org.capitalism.Prospectors.Prospector;
 import org.capitalism.Missions.AreaMission;
@@ -28,10 +29,12 @@ public class ListenerClass implements Listener {
     private ArrayList<Prospector> prospectors;
     private LootManager lootManager;
     private Capitalism plugin;
-    public ListenerClass(LootManager lootManager, Capitalism plugin) {
+    private AreneManager areneManager;
+    public ListenerClass(LootManager lootManager, AreneManager areneManager, Capitalism plugin) {
         this.prospectors = new ArrayList<>();
         this.lootManager = lootManager;
         this.plugin = plugin;
+        this.areneManager = areneManager;
     }
 
     public ListenerClass(Capitalism plugin){
@@ -122,6 +125,10 @@ public class ListenerClass implements Listener {
                 }
 
 
+            }
+
+            if (event.getRightClicked() == areneManager.getActualGame().getEndInteraction()) {
+                areneManager.getActualGame().end(getProspector(event.getPlayer()));
             }
 
         }

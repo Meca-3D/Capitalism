@@ -4,7 +4,12 @@ import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 
 import org.bukkit.*;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Interaction;
+import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.capitalism.Capitalism;
@@ -26,6 +31,13 @@ public class Arena {
     private Capitalism capitalism;
     private ArrayList<ArrayList<Double>> spawnCoordinates;
 
+    private ArrayList<Location> miningMissionLocations;
+
+    private ArrayList<Location> areaMissionLocations;
+
+    private Interaction endInteraction;
+    private ItemDisplay endShipModel;
+
     public Arena(int time, int id,Capitalism capitalism) {
        this.gameDuration = time;
        this.id = id;
@@ -35,6 +47,8 @@ public class Arena {
        this.spawnCoordinates.add(new ArrayList<>(Arrays.asList(63.5, 64d, 121.5)));
        this.spawnCoordinates.add(new ArrayList<>(Arrays.asList(67.5, 64d, 121.5)));
        this.spawnCoordinates.add(new ArrayList<>(Arrays.asList(71.5, 64d, 121.5)));
+
+
     }
 
     public void join(Prospector prospector) {
@@ -46,13 +60,48 @@ public class Arena {
     }
 
     public void start() {
+        this.endInteraction = (Interaction) prospectorsList.get(0).getPlayer().getWorld().spawnEntity(new Location(prospectorsList.get(0).getPlayer().getWorld(), 0, 80, 0), EntityType.INTERACTION);
+        this.endInteraction.setInteractionWidth(0.5f);
+        this.endInteraction.setInteractionHeight(0.5f);
         if(!isRunning) {
+            miningMissionLocations = new ArrayList<>(Arrays.asList(new Location(prospectorsList.get(0).getPlayer().getWorld(), 77, 63, 149).clone(), new Location(prospectorsList.get(0).getPlayer().getWorld(), 29, 63, 210).clone()));
+            areaMissionLocations = new ArrayList<>(Arrays.asList(new Location(prospectorsList.get(0).getPlayer().getWorld(), 0, 72, 0).clone()));
             isRunning = true;
             placeBlocks(Material.BARRIER);
             teleportPlayer();
             timerBeforeStart();
             missionManager();
         }
+    }
+
+    public void end(Prospector winner) {
+        Bukkit.broadcastMessage("tom pas la fraude");
+        for (Prospector prospector : prospectorsList) {
+            prospector.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 70, 4, true));
+            prospector.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 70, 1, true));
+        }
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                for (Prospector prospector : prospectorsList) {
+                    prospector.getPlayer().teleport(new Location(prospectorsList.get(0).getPlayer().getWorld(), 0, 120, 0));
+                }
+            }
+        }.runTaskLater(capitalism,60L);
+
+        prospectorsList.remove(winner);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                winner.getPlayer().sendTitle(ChatColor.AQUA + "§lWIN", "", 8, 20, 8);
+                winner.getPlayer().playSound(winner.getPlayer(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 10, 1);
+                for (Prospector prospector : prospectorsList) {
+                    prospector.getPlayer().sendTitle(ChatColor.RED + "§lLOSE", "", 8, 20, 8);
+                    prospector.getPlayer().playSound(prospector.getPlayer(), Sound.ENTITY_ENDER_DRAGON_DEATH, 10, 1);
+                }
+            }
+        }.runTaskLater(capitalism,60L);
+
     }
 
     public int getGameDuration() {
@@ -153,6 +202,11 @@ public class Arena {
                 for (int i = 0; i < prospector.getMissions().size(); i++) {
                     Mission mission = prospector.getMissions().get(i);
                     if (!mission.update()) {
+                        if (mission instanceof MiningMission) {
+                            miningMissionLocations.add(mission.getLocation().clone());
+                        }else if (mission instanceof AreaMission) {
+                            areaMissionLocations.add(mission.getLocation().clone());
+                        }
                         mission = null;
                         prospector.getMissions().remove(i);
                         if (prospector.getMissions().size() < 2) {
@@ -170,21 +224,38 @@ public class Arena {
                 }
             }
         }, 0L, 3000L);
-
     }
 
     public void addRandomMission(Prospector prospector) {
         Random random = new Random();
         int missionID = random.nextInt(0, 2);
+        Location location;
+        int index;
         switch (missionID) {
             case 0:
-                prospector.addMission(new AreaMission(capitalism, "Gold Farmer", 30, new Location(prospector.getPlayer().getWorld(), 0, 72, 0), 35, 1, prospector, new Location(prospector.getPlayer().getWorld(), 50, 150, 50), new Location(prospector.getPlayer().getWorld(), -50, -150, -50)));
+                if (areaMissionLocations.isEmpty()) {
+                    return;
+                }
+                index = random.nextInt(0, areaMissionLocations.size());
+                location = areaMissionLocations.get(index).clone();
+                areaMissionLocations.remove(index);
+                prospector.addMission(new AreaMission(capitalism, "Gold Farmer", 30, location, 35, 1, prospector, location.clone().add(new Vector(50, 150, 50)), location.clone().add(new Vector(-50, -150, -50))));
             case 1:
-                prospector.addMission(new MiningMission(capitalism, "Mining", 30, null, 35, 1, prospector));
+                if (miningMissionLocations.isEmpty()) {
+                    return;
+                }
+                index = random.nextInt(0, miningMissionLocations.size());
+                location = miningMissionLocations.get(index).clone();
+                miningMissionLocations.remove(index);
+                prospector.addMission(new MiningMission(capitalism, "Mining", 30, location, 35, 1, prospector));
         }
     }
 
     public int getId() {
         return id;
+    }
+
+    public Interaction getEndInteraction() {
+        return endInteraction;
     }
 }

@@ -35,7 +35,7 @@ public class AreaMission extends Mission {
                 state = "in progress";
             } else {
                 progression += 1;
-                if (progression == 100D) {
+                if (progression >= 100D) {
                     //state = "finished";
                     prospector.addMoney(this.profit);
                     return false;

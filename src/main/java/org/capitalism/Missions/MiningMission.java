@@ -3,6 +3,8 @@ package org.capitalism.Missions;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.capitalism.Capitalism;
@@ -19,30 +21,33 @@ public class MiningMission extends Mission {
     private Location location1;
     private Location location2;
     private ArrayList<Location> blocksLocations;
-    private ArrayList<Location> missionLocations;
 
     public MiningMission(Capitalism plugin, String name, int timer, Location location, int profit, int level, Prospector prospector) {
 
         super(plugin, name, timer, location, profit, level, prospector);
-        this.missionLocations = new ArrayList<>(Arrays.asList(new Location(prospector.getPlayer().getWorld(), 77, 63, 149), new Location(prospector.getPlayer().getWorld(), 29, 63, 210)));
-        Random random = new Random();
-        this.location = this.missionLocations.get(random.nextInt(0, this.missionLocations.size()));
+        this.location = location.clone();
         this.location1 = this.location.clone();
         this.location1 = this.location1.add(new Vector(16, 150, 16));
         this.location2 = this.location.clone();
         this.location2 = this.location2.add(new Vector(-16, -150, -16));
         this.blocksLocations = new ArrayList<>();
-        this.blocksLocations.add(this.location);
+        this.blocksLocations.add(this.location.clone());
+        this.blocksLocations.add(this.location.clone().add(new Vector(1, 0, 0)));
     }
 
     @Override
     public boolean update() {
+        Random random = new Random();
         if (currentTimer <= 0) {
             return false;
         }
         if (isInArea()) {
             if (Objects.equals(state, "available")) {
                 state = "in progress";
+                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "give " + prospector.getPlayer().getName() + " minecraft:diamond_pickaxe{CanDestroy:['minecraft:gold_ore']}");
+                for (Location loc : blocksLocations) {
+                    loc.getBlock().setType(Material.GOLD_ORE);
+                }
             } else {
                 for (Location loc : blocksLocations) {
                     if (loc.getBlock().getType() == Material.AIR) {
@@ -54,11 +59,12 @@ public class MiningMission extends Mission {
                                 loc.getBlock().setType(Material.GOLD_ORE);
                             }
 
-                        }.runTaskLater(plugin, 400L);
+                        }.runTaskLater(plugin, random.nextLong(250L, 350L));
                     }
                 }
-                if (progression == 100D) {
+                if (progression >= 100D) {
                     //state = "finished";
+                    prospector.getPlayer().getInventory().remove(Material.DIAMOND_PICKAXE);
                     prospector.addMoney(this.profit);
                     return false;
                 }
@@ -67,9 +73,6 @@ public class MiningMission extends Mission {
         if (!isInArea()) {
             updateTimer();
         }
-        Bukkit.broadcastMessage(location1.toString());
-        Bukkit.broadcastMessage(location2.toString());
-        Bukkit.broadcastMessage(isInArea() + "");
         return true;
     }
 
