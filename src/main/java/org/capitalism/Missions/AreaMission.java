@@ -36,7 +36,7 @@ public class AreaMission extends Mission {
             } else {
                 progression += 1;
                 if (progression == 100D) {
-                    state = "finished";
+                    //state = "finished";
                     prospector.addMoney(this.profit);
                     return false;
                 }
@@ -53,7 +53,8 @@ public class AreaMission extends Mission {
                     }
                 }
             }
-        } else if (Objects.equals(state, "available")) {
+        }
+        if (!isInArea()) {
             updateTimer();
         }
         return true;

@@ -13,6 +13,7 @@ import org.capitalism.Arenas.AreneManager;
 import org.capitalism.ItemManager.LootManager;
 import org.capitalism.Command.CommandClass;
 import org.capitalism.Missions.AreaMission;
+import org.capitalism.Missions.MiningMission;
 import org.capitalism.Prospectors.Prospector;
 import org.capitalism.Missions.Mission;
 
@@ -33,25 +34,9 @@ public final class Capitalism extends JavaPlugin {
         getCommand("join").setExecutor(commands);
         getCommand("start").setExecutor(commands);
         getCommand("shop").setExecutor(commands);
+        getCommand("chest").setExecutor(commands);
 
         getServer().getPluginManager().registerEvents(listenerClass, this);
-
-        Bukkit.getScheduler().runTaskTimer(this, () -> {
-            for (Prospector player : listenerClass.getProspectors()) {
-                updateHUD(player);
-            }
-        }, 0L, 2L);
-
-        Bukkit.getScheduler().runTaskTimer(this, () -> {
-            for (Prospector player : listenerClass.getProspectors()) {
-                for (Mission mission : player.getMissions()) {
-                    if (!mission.update()) {
-                        player.getMissions().remove(mission);
-                        mission = null;
-                    }
-                }
-            }
-        }, 0L, 20L);
 
     }
 
@@ -74,6 +59,19 @@ public final class Capitalism extends JavaPlugin {
             ChatColor color = ChatColor.WHITE;
             if (mission instanceof AreaMission ) {
                 if (((AreaMission) mission).isInArea())
+                    objective.getScore(color + mission.getName() + " | " + mission.getProgression() + "% " ).setScore(0);
+                else {
+                    color = ChatColor.GREEN;
+                    if (mission.getCurrentTimer() <= (mission.getTimer()/3))
+                        color = ChatColor.RED;
+                    else if (mission.getCurrentTimer() <= ((mission.getTimer()/3)*2))
+                        color = ChatColor.YELLOW;
+                    objective.getScore(color + mission.getName() + " | " + mission.getDirection() + " " + mission.getDistance() + " | " + mission.getCurrentTimer()).setScore(0);
+
+                }
+            }
+            if (mission instanceof MiningMission) {
+                if (((MiningMission) mission).isInArea())
                     objective.getScore(color + mission.getName() + " | " + mission.getProgression() + "% " ).setScore(0);
                 else {
                     color = ChatColor.GREEN;

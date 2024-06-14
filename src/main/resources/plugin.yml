@@ -9,3 +9,5 @@ commands:
     description: "Join the game"
   shop:
     description: "Spawn shop"
+  chest:
+    description: "Spawn chest"

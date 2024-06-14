@@ -4,6 +4,7 @@ import org.bukkit.Location;
 import org.capitalism.Capitalism;
 import org.capitalism.Prospectors.Prospector;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 

@@ -53,24 +53,26 @@ public class UsableItem extends Container {
         Random random = new Random();
         int modelData = random.nextInt(1,3);
         meta.setCustomModelData(modelData);
-        this.itemStack.setItemMeta(meta);
 
         this.itemDisplay.setItemDisplayTransform(ItemDisplay.ItemDisplayTransform.GROUND);
-        this.itemDisplay.setItemStack(this.itemStack);
         this.itemDisplay.setDisplayWidth(0.5f);
         this.itemDisplay.setDisplayHeight(0.5f);
 
         switch(modelData) {
             case 1:
                 this.weapon = new J7(null);
+                meta.setDisplayName("J-7");
                 break;
             case 2:
                 this.weapon = new Eagle50(null, plugin);
+                meta.setDisplayName("Eagle .50");
                 break;
             default:
                this.weapon = new Brimstone(null);
+                meta.setDisplayName("Brimstone");
         }
-
+        this.itemStack.setItemMeta(meta);
+        this.itemDisplay.setItemStack(this.itemStack);
 
         this.price = this.weapon.getPrice();
         //Bukkit.broadcastMessage(String.valueOf(price));
@@ -80,23 +82,18 @@ public class UsableItem extends Container {
     public ItemDisplay getItemDisplay() {
         return this.itemDisplay;
     }
-
     public Interaction getInteraction() {
         return this.interaction;
     }
-
     public ItemStack getItemStack() {
         return itemStack;
     }
-
     public void setItemStack(ItemStack itemStack) {
         this.itemStack = itemStack;
     }
-
     public void setItemDisplay(ItemDisplay itemDisplay) {
         this.itemDisplay = itemDisplay;
     }
-
     public Boolean getOwned() {
         return owned;
     }

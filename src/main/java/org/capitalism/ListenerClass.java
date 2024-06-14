@@ -55,7 +55,7 @@ public class ListenerClass implements Listener {
 
         //prospectors.get(prospectors.size()-1).addMission(new AreaMission("Gold Farmer", 30, 30, new Location(event.getPlayer().getWorld(), 0, 0, 0), 35, 1, "available", prospectors.get(prospectors.size()-1), new Location(event.getPlayer().getWorld(), 50, 150, 50), new Location(event.getPlayer().getWorld(), -50, -150, -50)));
         //prospectors.get(prospectors.size()-1).addMission(new Mission("Gold Farmer", 30, 30, new Location(event.getPlayer().getWorld(), 0, 0, 0), 35, 1, "available", prospectors.get(prospectors.size()-1)));
-        getProspector(event.getPlayer()).addMission(new AreaMission(plugin, "Gold Farmer", 30, new Location(event.getPlayer().getWorld(), 0, 72, 0), 35, 1, getProspector(event.getPlayer()), new Location(event.getPlayer().getWorld(), 50, 150, 50), new Location(event.getPlayer().getWorld(), -50, -150, -50)));
+        //getProspector(event.getPlayer()).addMission(new AreaMission(plugin, "Gold Farmer", 30, new Location(event.getPlayer().getWorld(), 0, 72, 0), 35, 1, getProspector(event.getPlayer()), new Location(event.getPlayer().getWorld(), 50, 150, 50), new Location(event.getPlayer().getWorld(), -50, -150, -50)));
 
     }
 
@@ -66,10 +66,12 @@ public class ListenerClass implements Listener {
 
     @EventHandler
     public void onMobKilled (EntityDamageByEntityEvent event) {
-        if (((LivingEntity)event.getEntity()).getHealth() - event.getDamage() <= 0) {
-            if (event.getDamager() instanceof Player) {
-                Player p = (Player) event.getDamager();
-                getProspector(p).addMoney(new Random().nextInt(2, 6));
+        if (event != null && event.getEntity() instanceof LivingEntity) {
+            if (((LivingEntity) event.getEntity()).getHealth() - event.getDamage() <= 0) {
+                if (event.getDamager() instanceof Player) {
+                    Player p = (Player) event.getDamager();
+                    getProspector(p).addMoney(new Random().nextInt(2, 6));
+                }
             }
         }
     }
@@ -144,42 +146,6 @@ public class ListenerClass implements Listener {
             if (event.getItem().getType() == Material.WOODEN_HOE && event.getItem().getItemMeta().getDisplayName().equals("J-7") || event.getItem().getItemMeta().getDisplayName().equals("Eagle .50")) {
                 if (prospector != null) {
                     prospector.getSlot1().shoot();
-
-                    Location location = event.getPlayer().getLocation();
-
-                    // Chest
-
-                    Interaction interaction1 = (Interaction) event.getPlayer().getWorld().spawnEntity(location.add(new Vector(-1.5, 0, 0)), EntityType.INTERACTION);
-                    interaction1.setInteractionHeight(1);
-                    interaction1.setInteractionWidth(3);
-
-                    ItemDisplay chestModel = (ItemDisplay) event.getPlayer().getWorld().spawnEntity(location.add(new Vector(0,0.5,0)), EntityType.ITEM_DISPLAY);
-                    ItemStack chest = new ItemStack(Material.PAPER);
-                    ItemMeta chestMeta = chest.getItemMeta();
-                    chestMeta.setCustomModelData(1);
-                    chest.setItemMeta(chestMeta);
-                    chestModel.setItemStack(chest);
-                    chestModel.setDisplayWidth(2);
-
-                    ItemDisplay rightChestDoorModel = (ItemDisplay) event.getPlayer().getWorld().spawnEntity(chestModel.getLocation().add(new Vector(-0.62, 0.812, 0)), EntityType.ITEM_DISPLAY);
-                    ItemStack rightChestDoor = new ItemStack(Material.PAPER);
-                    ItemMeta rightDoorMeta = rightChestDoor.getItemMeta();
-                    rightDoorMeta.setCustomModelData(3);
-                    rightChestDoor.setItemMeta(rightDoorMeta);
-                    rightChestDoorModel.setItemStack(rightChestDoor);
-                    rightChestDoorModel.setDisplayWidth(2);
-
-                    ItemDisplay leftChestDoorModel = (ItemDisplay) event.getPlayer().getWorld().spawnEntity(chestModel.getLocation().add(new Vector(0.62, 0.812, 0)), EntityType.ITEM_DISPLAY);
-                    ItemStack leftChestDoor = new ItemStack(Material.PAPER);
-                    ItemMeta leftDoorMeta = leftChestDoor.getItemMeta();
-                    leftDoorMeta.setCustomModelData(2);
-                    leftChestDoor.setItemMeta(leftDoorMeta);
-                    leftChestDoorModel.setItemStack(leftChestDoor);
-                    leftChestDoorModel.setDisplayWidth(2);
-
-                    lootManager.add(new LootChest(interaction1, chestModel, leftChestDoorModel, rightChestDoorModel, location, plugin));
-
-
                 } else {
                     event.getPlayer().sendMessage("Prospector not found");
                 }
@@ -191,10 +157,12 @@ public class ListenerClass implements Listener {
     @EventHandler
     public void onPlayerAttack(EntityDamageByEntityEvent event)
     {
-        if (event.getDamager() != null && event.getEntity() != null) {
-            if(!(event.getEntity() instanceof Player) && event.getDamager() instanceof Player) {
-                if (event.getEntity() instanceof Zombie) {
-                    ((Zombie) event.getEntity()).setTarget((LivingEntity) event.getDamager());
+        if (event != null) {
+            if (event.getEntity() instanceof LivingEntity) {
+                if(!(event.getEntity() instanceof Player) && event.getDamager() instanceof Player) {
+                    if (event.getEntity() instanceof Zombie) {
+                        ((Zombie) event.getEntity()).setTarget((LivingEntity) event.getDamager());
+                    }
                 }
             }
         }
