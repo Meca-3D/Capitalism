@@ -14,14 +14,18 @@ import org.capitalism.Capitalism;
 import org.capitalism.ListenerClass;
 import org.capitalism.Weapons.Weapon;
 import org.capitalism.Weapons.WeaponInterface;
+import org.bukkit.ChatColor;
+
 
 
 public class Eagle50 extends Weapon implements WeaponInterface {
 
-    private Capitalism plugin;
+
+
     private ListenerClass listenerClass;
+
     public Eagle50(Player player, Capitalism plugin) {
-        super(5, 20, 20, 4, "Eagle .50", player, 2, 450.00d);
+        super(5, 20, 20, 40, "Eagle .50", player, 2, 450.00d, plugin);
         this.plugin = plugin;
         this.listenerClass = plugin.getListenerClass();
     }
@@ -30,8 +34,9 @@ public class Eagle50 extends Weapon implements WeaponInterface {
     public void shoot() {
         if(((System.currentTimeMillis() - lastShot) > fireRate) && ammo > 0){
             lastShot = System.currentTimeMillis();
+            
             ammo--;
-            player.sendMessage(ammo + " / " + maxAmmo);
+            player.sendMessage("§e§l" + ammo + "/" + maxAmmo);
             if(ammo == 0){
                 reload();
             }
@@ -77,7 +82,13 @@ public class Eagle50 extends Weapon implements WeaponInterface {
 
     @Override
     public void reload() {
-        ammo = maxAmmo;
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                ammo = maxAmmo;
+            }
+
+        }.runTaskLater(plugin, reloadTime);
     }
 
     @Override

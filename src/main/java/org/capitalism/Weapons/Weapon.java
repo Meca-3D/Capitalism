@@ -1,6 +1,7 @@
 package org.capitalism.Weapons;
 
 import org.bukkit.entity.Player;
+import org.capitalism.Capitalism;
 
 public class Weapon {
 
@@ -9,13 +10,14 @@ public class Weapon {
     protected int maxAmmo;
     protected int damage;
     protected double fireRate;
-    protected int reloadTime;
+    protected long reloadTime;
     protected double lastShot;
     protected Player player;
     protected int customModelData;
     protected double price;
+    protected Capitalism plugin;
 
-    public Weapon(int maxAmmo, int damage, double fireRate, int reloadTime, String name, Player player, int customModelData, double price) {
+    public Weapon(int maxAmmo, int damage, double fireRate, long reloadTime, String name, Player player, int customModelData, double price, Capitalism plugin) {
         this.name = name;
         this.maxAmmo = maxAmmo;
         this.ammo = maxAmmo;
@@ -26,6 +28,7 @@ public class Weapon {
         this.lastShot = System.currentTimeMillis();
         this.customModelData = customModelData;
         this.price = price;
+        this.plugin = plugin;
     }
 
     public double getPrice() {

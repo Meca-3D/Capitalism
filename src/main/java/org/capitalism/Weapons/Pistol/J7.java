@@ -2,13 +2,19 @@ package org.capitalism.Weapons.Pistol;
 
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.capitalism.Capitalism;
 import org.capitalism.Weapons.Weapon;
 import org.capitalism.Weapons.WeaponInterface;
 
+
+
 public class J7 extends Weapon implements WeaponInterface {
 
-    public J7(Player player) {
-        super(7, 10, 600, 1, "J-7", player, 1, 120.00d);
+    private Capitalism plugin;
+
+    public J7(Player player, Capitalism plugin) {
+        super(7, 10, 600, 10, "J-7", player, 1, 120.00d, plugin);
     }
 
     @Override
@@ -18,7 +24,7 @@ public class J7 extends Weapon implements WeaponInterface {
             lastShot = System.currentTimeMillis();
             player.launchProjectile(Arrow.class, player.getLocation().getDirection().multiply(2));
             ammo--;
-            player.sendMessage(ammo + " / " + maxAmmo);
+            player.sendMessage("§e§l" + ammo + "/" + maxAmmo);
         }
         if(ammo == 0){
             reload();
@@ -27,7 +33,13 @@ public class J7 extends Weapon implements WeaponInterface {
 
     @Override
     public void reload() {
-        ammo = maxAmmo;
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                ammo = maxAmmo;
+            }
+
+        }.runTaskLater(plugin, reloadTime);
     }
 
     @Override

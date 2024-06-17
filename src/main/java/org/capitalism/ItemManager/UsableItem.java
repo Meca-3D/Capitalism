@@ -60,7 +60,7 @@ public class UsableItem extends Container {
 
         switch(modelData) {
             case 1:
-                this.weapon = new J7(null);
+                this.weapon = new J7(null, plugin);
                 meta.setDisplayName("J-7");
                 break;
             case 2:
@@ -68,7 +68,7 @@ public class UsableItem extends Container {
                 meta.setDisplayName("Eagle .50");
                 break;
             default:
-               this.weapon = new Brimstone(null);
+               this.weapon = new Brimstone(null, plugin);
                 meta.setDisplayName("Brimstone");
         }
         this.itemStack.setItemMeta(meta);

@@ -2,13 +2,14 @@ package org.capitalism.Weapons.Shotgun;
 
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
+import org.capitalism.Capitalism;
 import org.capitalism.Weapons.Weapon;
 import org.capitalism.Weapons.WeaponInterface;
 
 public class Brimstone extends Weapon implements WeaponInterface {
 
-    public Brimstone(Player player) {
-        super(5, 20, 1500, 4, "Brimstone", player, 3, 300.00d);
+    public Brimstone(Player player, Capitalism plugin) {
+        super(5, 20, 1500, 4, "Brimstone", player, 3, 300.00d, plugin);
     }
 
     @Override

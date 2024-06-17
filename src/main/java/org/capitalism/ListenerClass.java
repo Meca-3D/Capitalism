@@ -82,7 +82,6 @@ public class ListenerClass implements Listener {
     @EventHandler
     public void onEntityInteraction(PlayerInteractAtEntityEvent event){
         if(event.getRightClicked().getType() == EntityType.INTERACTION){
-            event.getPlayer().sendMessage("You just right clicked on a interaction entity");
 
             for (Container loot : lootManager.getLoots()) {
 

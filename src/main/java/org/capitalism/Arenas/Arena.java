@@ -27,6 +27,7 @@ public class Arena {
     private ArrayList<Prospector> prospectorsList;
     private int id;
     private int gameDuration;
+    private int maxTime;
     private boolean isRunning = false;
     private Capitalism capitalism;
     private ArrayList<ArrayList<Double>> spawnCoordinates;
@@ -39,7 +40,8 @@ public class Arena {
     private ItemDisplay endShipModel;
 
     public Arena(int time, int id,Capitalism capitalism) {
-       this.gameDuration = time;
+       this.maxTime = time;
+       this.gameDuration = maxTime;
        this.id = id;
        this.prospectorsList = new ArrayList<>();
        this.capitalism = capitalism;
@@ -60,10 +62,8 @@ public class Arena {
     }
 
     public void start() {
-        this.endInteraction = (Interaction) prospectorsList.get(0).getPlayer().getWorld().spawnEntity(new Location(prospectorsList.get(0).getPlayer().getWorld(), 0, 80, 0), EntityType.INTERACTION);
-        this.endInteraction.setInteractionWidth(0.5f);
-        this.endInteraction.setInteractionHeight(0.5f);
         if(!isRunning) {
+            gameDuration = maxTime;
             miningMissionLocations = new ArrayList<>(Arrays.asList(new Location(prospectorsList.get(0).getPlayer().getWorld(), 77, 63, 149).clone(), new Location(prospectorsList.get(0).getPlayer().getWorld(), 29, 63, 210).clone()));
             areaMissionLocations = new ArrayList<>(Arrays.asList(new Location(prospectorsList.get(0).getPlayer().getWorld(), 0, 72, 0).clone()));
             isRunning = true;
@@ -75,10 +75,10 @@ public class Arena {
     }
 
     public void end(Prospector winner) {
-        Bukkit.broadcastMessage("tom pas la fraude");
         for (Prospector prospector : prospectorsList) {
             prospector.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 70, 4, true));
             prospector.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 70, 1, true));
+            gameDuration = 0;
         }
         new BukkitRunnable() {
             @Override
@@ -87,7 +87,7 @@ public class Arena {
                     prospector.getPlayer().teleport(new Location(prospectorsList.get(0).getPlayer().getWorld(), 0, 120, 0));
                 }
             }
-        }.runTaskLater(capitalism,60L);
+        }.runTaskLater(capitalism,50L);
 
         prospectorsList.remove(winner);
         new BukkitRunnable() {
@@ -100,7 +100,7 @@ public class Arena {
                     prospector.getPlayer().playSound(prospector.getPlayer(), Sound.ENTITY_ENDER_DRAGON_DEATH, 10, 1);
                 }
             }
-        }.runTaskLater(capitalism,60L);
+        }.runTaskLater(capitalism,80L);
 
     }
 
@@ -124,11 +124,15 @@ public class Arena {
                     for (Player p : Bukkit.getOnlinePlayers()) {
                         p.playSound(p.getLocation(), "cptlm:endgame",1,1);
                     } 
-                }
+                }else if (gameDuration == 150) {
+                     endInteraction = (Interaction) prospectorsList.get(0).getPlayer().getWorld().spawnEntity(new Location(prospectorsList.get(0).getPlayer().getWorld(), 0, 80, 0), EntityType.INTERACTION);
+                     endInteraction.setInteractionWidth(0.5f);
+                     endInteraction.setInteractionHeight(0.5f);
+                 }
                 if(gameDuration > 0){
                     gameDuration--;
                     for(Prospector prospector : prospectorsList){
-                        prospector.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("Time left " + (gameDuration/60) + " " + (gameDuration%60)));
+                        prospector.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("Time left " + (gameDuration/60) + " : " + (gameDuration%60)));
                     }
                 } else {
                     isRunning = false;
