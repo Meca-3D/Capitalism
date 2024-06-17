@@ -33,6 +33,8 @@ public class MiningMission extends Mission {
         this.blocksLocations = new ArrayList<>();
         this.blocksLocations.add(this.location.clone());
         this.blocksLocations.add(this.location.clone().add(new Vector(1, 0, 0)));
+        this.blocksLocations.add(this.location.clone().add(new Vector(0, 1, 0)));
+        this.blocksLocations.add(this.location.clone().add(new Vector(0, 0, 1)));
     }
 
     @Override

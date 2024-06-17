@@ -46,8 +46,8 @@ public class Arena {
        this.prospectorsList = new ArrayList<>();
        this.capitalism = capitalism;
        this.spawnCoordinates = new ArrayList<>();
-       this.spawnCoordinates.add(new ArrayList<>(Arrays.asList(63.5, 64d, 121.5)));
-       this.spawnCoordinates.add(new ArrayList<>(Arrays.asList(67.5, 64d, 121.5)));
+       this.spawnCoordinates.add(new ArrayList<>(Arrays.asList(48.5, 72d, 212.5)));
+       this.spawnCoordinates.add(new ArrayList<>(Arrays.asList(-103.5, 74d, 181.5)));
        this.spawnCoordinates.add(new ArrayList<>(Arrays.asList(71.5, 64d, 121.5)));
 
 
@@ -64,8 +64,8 @@ public class Arena {
     public void start() {
         if(!isRunning) {
             gameDuration = maxTime;
-            miningMissionLocations = new ArrayList<>(Arrays.asList(new Location(prospectorsList.get(0).getPlayer().getWorld(), 77, 63, 149).clone(), new Location(prospectorsList.get(0).getPlayer().getWorld(), 29, 63, 210).clone()));
-            areaMissionLocations = new ArrayList<>(Arrays.asList(new Location(prospectorsList.get(0).getPlayer().getWorld(), 0, 72, 0).clone()));
+            miningMissionLocations = new ArrayList<>(Arrays.asList(new Location(prospectorsList.get(0).getPlayer().getWorld(), 45, 67, 113).clone(), new Location(prospectorsList.get(0).getPlayer().getWorld(), 96, 70, 60).clone()));
+            areaMissionLocations = new ArrayList<>(Arrays.asList(new Location(prospectorsList.get(0).getPlayer().getWorld(), -92, 74, 147).clone()));
             isRunning = true;
             placeBlocks(Material.BARRIER);
             teleportPlayer();

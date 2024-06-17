@@ -26,7 +26,7 @@ public class GRABDOULFOU extends CustomMob {
     @Override
     public void init() {
 
-        this.mob.setCustomName("TaLiBaN");
+        this.mob.setCustomName("Bomber");
         this.mob.setCustomNameVisible(true);
         this.mob.setHealth(20);
         this.mob.setBaby();
