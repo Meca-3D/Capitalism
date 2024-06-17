@@ -41,7 +41,7 @@ public class AreaMission extends Mission {
                     return false;
                 }
                 if ((progression % 20) == 0) {
-                    for (int i = 0; i < (Math.round(Math.random() * (50)) + 10); i++) {
+                    for (int i = 0; i < (Math.round(Math.random() * (30)) + 10); i++) {
                         World w = prospector.getPlayer().getLocation().getWorld();
                         double k = Math.round(Math.random() * (359)) + 1;
                         double x = location.getX() + Math.cos(Math.toRadians(k)) * 20;
